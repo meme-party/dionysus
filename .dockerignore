@@ -1,0 +1,6 @@
+.git
+__pycache__
+*.pyc
+.mypy_cache
+.coverage
+htmlcov
