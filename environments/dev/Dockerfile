@@ -32,15 +32,6 @@ COPY ./webapp /app/webapp
 
 # shell script 복사
 COPY ./environments/dev/start-webapp.sh /start-webapp.sh
-COPY ./environments/dev/start-migration.sh /start-migration.sh
-
-# 디버깅 출력 (sh 파일 내용)
-
-RUN cat /start-webapp.sh
-RUN cat /start-migration.sh
-
-
 RUN chmod +x /start-webapp.sh
-RUN chmod +x /start-migration.sh
 
 EXPOSE ${PORT}
