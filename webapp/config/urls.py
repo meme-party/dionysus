@@ -4,7 +4,7 @@ Url patterns for the project.
 
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.views.static import serve
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -24,6 +24,8 @@ urlpatterns = [
     path(
         "api/v1/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"
     ),
+
+    path('api/', include('api.urls')),
 ]
 
 if settings.DEBUG:

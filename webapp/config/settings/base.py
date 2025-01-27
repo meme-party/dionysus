@@ -52,7 +52,10 @@ PACKAGE_APPS = [
     "markdownx",
 ]
 
-CUSTOM_APPS: List[str] = []
+CUSTOM_APPS: List[str] = [
+    'api',
+    'user',
+]
 
 INSTALLED_APPS = PRE_PACKAGE_APPS + DJANGO_APPS + PACKAGE_APPS + CUSTOM_APPS
 
@@ -132,6 +135,9 @@ TIME_ZONE = "Asia/Seoul"
 USE_I18N = True
 USE_TZ = True
 
+# User model settings
+
+AUTH_USER_MODEL = "user.User"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
