@@ -1,54 +1,42 @@
-version: "3.8"
+version: '3.7'
 
 services:
-  fastapi:
+  dionysus:
+    container_name: dionysus-webapp
     build:
-      context: .
-      args:
-        DISTRO_NAME: bullseye
-        PYTHON_VERSION: 3.13
-    env_file:
-        - .env
-    environment:
-        POSTGRES_DB: ${POSTGRES_DB}
-        POSTGRES_USER: ${POSTGRES_USER}
-        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-        ENVIRONMENT: ${ENVIRONMENT}
-        SECRET_KEY: ${SECRET_KEY}
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./app:/dionysus/app
-      - ./migrations:/dionysus/migrations
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
-    depends_on:
-      - postgres
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:8000/healthcheck"]
-        interval: 60s
-        timeout: 5s
-        retries: 5
-
-  postgres:
-    image: postgres:17.0-bullseye
+        context: .
+        dockerfile: ./environments/dev/Dockerfile
+    restart: always
     env_file:
       - .env
     environment:
-        PGDATA: /var/lib/postgresql/data/pgdata
-        POSTGRES_DB: ${POSTGRES_DB}
-        POSTGRES_USER: ${POSTGRES_USER}
-        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      - PORT=${PORT}
     volumes:
-        - dionysus_db_data:/var/lib/postgresql/data/pgdata
-        - ./dockerdev/postgres/initial_setup.sql:/docker-entrypoint-initdb.d/init.sql
+      - .:/app
+      - ./environments/dev/start-webapp.sh:/start-webapp.sh
     ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
-
+      - "${PORT}:${PORT}"
+    depends_on:
+      - db
+    entrypoint:
+      - /start-webapp.sh
+  db:
+    image: postgres:17
+    expose:
+      - "${POSTGRES_PORT}"
+    ports:
+        - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    volumes:
+      - ./environments/dev/db_initial_setup.sql:/docker-entrypoint-initdb.d/initial_setup.sql
+      - postgres_data:/var/lib/postgresql/data/
+    command: -p ${POSTGRES_PORT}
 volumes:
-    dionysus_db_data:
+    postgres_data:
