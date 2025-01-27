@@ -16,7 +16,7 @@ env.read_env(f"{PROJECT_DIR}/.env")
 env.read_env(f"{BASE_DIR}/.env")
 
 SECRET_KEY = env("DJANGO_SECRET_KEY")
-DEBUG = env("DEBUG", "True") == "True" or bool(env("DEBUG", ""))
+DEBUG = env("DEBUG") == "True" or bool(env("DEBUG"))
 
 # Network settings
 
