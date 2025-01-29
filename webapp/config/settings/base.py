@@ -2,10 +2,12 @@
 Django settings for dionysus project.
 """
 
-from django.templatetags.static import static
+import logging
+from datetime import timedelta
 from typing import List
 
 import environ
+from django.templatetags.static import static
 
 # Default Environment Variables
 
@@ -48,6 +50,8 @@ DJANGO_APPS = [
 ]
 
 PACKAGE_APPS = [
+    "nplusone.ext.django",
+    "silk",
     "rest_framework",
     "drf_spectacular",
     "safedelete",
@@ -55,6 +59,14 @@ PACKAGE_APPS = [
     "django_guid",
     "drf_api_logger",
     "markdownx",
+    "rest_framework.authtoken",
+    "allauth",
+    "allauth.socialaccount",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.kakao",
+    "allauth.socialaccount.providers.github",
 ]
 
 CUSTOM_APPS: List[str] = [
@@ -72,6 +84,8 @@ INSTALLED_APPS = PRE_PACKAGE_APPS + DJANGO_APPS + PACKAGE_APPS + CUSTOM_APPS
 
 PRE_PACKAGE_MIDDLEWARES = [
     "django_guid.middleware.guid_middleware",
+    "nplusone.ext.django.NPlusOneMiddleware",
+    "silk.middleware.SilkyMiddleware",
 ]
 
 DJANGO_MIDDLEWARES = [
@@ -158,6 +172,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+    ),
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_PAGINATION_CLASS": ("rest_framework.pagination.PageNumberPagination"),
+    "PAGE_SIZE": 10,
+}
+
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "dionysus-app-auth",
+    "JWT_AUTH_REFRESH_COOKIE": "dionysus-app-refresh",
 }
 
 SPECTACULAR_SETTINGS = {
@@ -165,11 +193,37 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Meme Project",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "CONTACT": {
+        "name": "shinkeonkim",
+        "email": "dev.shinkeonkim@gmail.com",
+    },
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "theme": "dark",
+        "validatorUrl": None,
+    },
+}
+
+REST_USE_JWT = True
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
 
 # ========== END DRF Spectacular settings ==========
 
 # ========== Logging settings ==========
+
+NPLUSONE_LOGGER = logging.getLogger("nplusone")
+NPLUSONE_LOG_LEVEL = logging.WARN
 
 LOGGING = {
     "version": 1,
@@ -185,6 +239,12 @@ LOGGING = {
         "medium": {
             "format": "%(levelname)s %(asctime)s [%(correlation_id)s] %(name)s %(message)s"
         }
+    },
+    "loggers": {
+        "nplusone": {
+            "handlers": ["console"],
+            "level": "WARN",
+        },
     },
 }
 
@@ -218,3 +278,27 @@ DRF_API_LOGGER_SLOW_API_ABOVE = (
 
 
 # ========== END drf-api-logger settings ==========
+
+# ========== Unfold settings ==========
+
+UNFOLD = {
+    "STYLES": [
+        lambda request: static("css/styles.css"),
+    ],
+    "SCRIPTS": [
+        lambda request: static("js/scripts.js"),
+    ],
+}
+
+# ========== END Unfold settings ==========
+
+AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
+
+# ========== Silk settings ==========
+
+SILKY_AUTHENTICATION = True
+SILKY_AUTHORISATION = True
+
+# ========== END Silk settings ==========
+
+# TODO: CORS 설정 추가하기

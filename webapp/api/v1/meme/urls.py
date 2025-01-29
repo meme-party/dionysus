@@ -1,14 +1,14 @@
 from django.urls import path
 
-app_name = 'api.v1.meme'
+from .views import MemeViewSet
 
-
-from django.http import HttpResponse
-
-def test_view(request):
-    return HttpResponse('Test view')
-
+app_name = "api.v1.meme"
 
 urlpatterns = [
-    path('test/', test_view, name='test'),
+    path("", MemeViewSet.as_view({"get": "list", "post": "create"}), name="meme-list"),
+    path(
+        "<int:pk>/",
+        MemeViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"}),
+        name="meme-detail",
+    ),
 ]

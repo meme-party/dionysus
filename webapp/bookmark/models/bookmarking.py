@@ -30,3 +30,10 @@ class Bookmarking(BaseModel):
         related_name="bookmarkings",
         on_delete=models.CASCADE,
     )
+
+    @property
+    def user(self):
+        return self.bookmark.user
+
+    def __str__(self):
+        return f"{self.bookmark} - {self.meme}"

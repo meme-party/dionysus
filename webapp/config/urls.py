@@ -4,7 +4,7 @@ Url patterns for the project.
 
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, re_path, include
+from django.urls import include, path, re_path
 from django.views.static import serve
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -14,6 +14,7 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("silk/", include("silk.urls", namespace="silk")),
     path("", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
@@ -24,8 +25,10 @@ urlpatterns = [
     path(
         "api/v1/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"
     ),
-
-    path('api/', include('api.urls')),
+    path("api/", include("api.urls")),
+    path("api/accounts/", include("dj_rest_auth.urls")),
+    path("api/accounts/", include("allauth.urls")),
+    # path('api/accounts/', include('account.urls')),
 ]
 
 if settings.DEBUG:

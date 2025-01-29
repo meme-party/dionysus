@@ -1,4 +1,5 @@
 from config.models import BaseModelWithSoftDelete, SoftDeleteManager
+from django.conf import settings
 from django.db import models
 from django.db.models import QuerySet
 
@@ -82,7 +83,7 @@ class Meme(BaseModelWithSoftDelete):
     )
 
     creator = models.ForeignKey(
-        "account.User",
+        settings.AUTH_USER_MODEL,
         verbose_name="creator",
         related_name="created_memes",
         on_delete=models.CASCADE,
