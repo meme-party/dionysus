@@ -1,6 +1,8 @@
 """
 Django settings for dionysus project.
 """
+
+from django.templatetags.static import static
 from typing import List
 
 import environ
@@ -17,6 +19,8 @@ env.read_env(f"{BASE_DIR}/.env")
 
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env("DEBUG") == "True" or bool(env("DEBUG"))
+
+SITE_ID = 1
 
 # Network settings
 
@@ -44,6 +48,7 @@ DJANGO_APPS = [
 ]
 
 PACKAGE_APPS = [
+    "rest_framework",
     "drf_spectacular",
     "safedelete",
     "django_filters",
@@ -53,8 +58,12 @@ PACKAGE_APPS = [
 ]
 
 CUSTOM_APPS: List[str] = [
-    'api',
-    'user',
+    "api",
+    "bookmark",
+    "meme",
+    "account",
+    "file_manager",
+    "tag",
 ]
 
 INSTALLED_APPS = PRE_PACKAGE_APPS + DJANGO_APPS + PACKAGE_APPS + CUSTOM_APPS
@@ -137,7 +146,7 @@ USE_TZ = True
 
 # User model settings
 
-AUTH_USER_MODEL = "user.User"
+AUTH_USER_MODEL = "account.User"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -145,10 +154,9 @@ AUTH_USER_MODEL = "user.User"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# ========== DRF Spectacular settings ==========
+# ========== DRF settings ==========
 
 REST_FRAMEWORK = {
-    # YOUR SETTINGS
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
