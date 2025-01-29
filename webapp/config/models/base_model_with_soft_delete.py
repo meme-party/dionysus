@@ -1,8 +1,10 @@
 from django.db import models
-from .base_model import BaseModel
 from django.utils import timezone
 
-class SoftDeleteManager(models.Manager):
+from .base_model import BaseModel, BaseModelManager
+
+
+class SoftDeleteManager(BaseModelManager):
     use_for_related_fields = True
 
     def get_queryset(self):

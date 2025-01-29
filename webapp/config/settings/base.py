@@ -50,6 +50,9 @@ DJANGO_APPS = [
 ]
 
 PACKAGE_APPS = [
+    "django.contrib.postgres",
+    "psqlextra",
+    "django_extensions",
     "nplusone.ext.django",
     "silk",
     "rest_framework",
