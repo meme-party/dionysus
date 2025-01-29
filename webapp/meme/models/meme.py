@@ -1,7 +1,9 @@
 from config.models import BaseModelWithSoftDelete, SoftDeleteManager
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import QuerySet
+from meme.models.meme_counter import MemeCounter
 
 TYPE_CHOICES = (
     ("Text", "Text"),
@@ -118,3 +120,24 @@ class Meme(BaseModelWithSoftDelete):
         on_delete=models.SET_NULL,
         null=True,
     )
+
+    @property
+    def bookmarking_users(self):
+        user_model = get_user_model()
+        return user_model.objects.filter(bookmarks__bookmarkings__meme=self).distinct()
+
+    @property
+    def meme_counter(self):
+        counter, created = MemeCounter.objects.get_or_create(meme=self)
+        return counter
+
+    @property
+    def bookmarking_users_count(self):
+        return self.meme_counter.bookmarking_users_count
+
+    @property
+    def bookmarkings_count(self):
+        return self.meme_counter.bookmarkings_count
+
+    def reset_all_counters(self):
+        self.meme_counter.reset_all_counters()

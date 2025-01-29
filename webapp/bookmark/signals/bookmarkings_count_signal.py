@@ -11,3 +11,13 @@ def update_bookmarkings_count_on_save(sender, instance, created, **kwargs):
 @receiver(post_delete, sender=Bookmarking)
 def update_bookmarkings_count_on_delete(sender, instance, **kwargs):
     instance.bookmark.reset_bookmarkings_count()
+
+
+@receiver(post_save, sender=Bookmarking)
+def update_meme_counter_on_bookmarking_save(sender, instance, created, **kwargs):
+    instance.meme.reset_all_counters()
+
+
+@receiver(post_delete, sender=Bookmarking)
+def update_meme_counter_on_bookmarking_delete(sender, instance, **kwargs):
+    instance.meme.reset_all_counters()
