@@ -10,6 +10,8 @@ class TagListAPIView(ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = [AllowAny]
+    filterset_fields = ["category", "first_letter"]
+    search_fields = ["name", "split_name"]
 
     def get_queryset(self):
         return self.queryset.all()

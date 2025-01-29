@@ -15,4 +15,20 @@ class TagAdmin(ModelAdmin):
     ordering = ()
 
     exclude = ["deleted_at"]
-    readonly_fields = ["created_at", "updated_at", "deleted_at"]
+    readonly_fields = [
+        "split_name",
+        "first_letter",
+        "created_at",
+        "updated_at",
+        "deleted_at",
+    ]
+
+    fields = (
+        "name",
+        "split_name",
+        "first_letter",
+        "description",
+        "category",
+        "created_at",
+        "updated_at",
+    )

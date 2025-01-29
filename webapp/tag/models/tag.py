@@ -1,6 +1,7 @@
 from config.models import BaseModelWithSoftDelete, SoftDeleteManager
 from django.db import models
 from django.db.models import QuerySet
+from tag.utils.text_splitter import TextSplitter
 
 
 class TagQuerySet(QuerySet):
@@ -17,15 +18,26 @@ class TagQuerySet(QuerySet):
         return self.filter(archived_at__isnull=False)
 
 
+class TagModelManager(SoftDeleteManager.from_queryset(TagQuerySet)):
+    use_for_related_fields = True
+
+    def get_queryset(self):
+        return super().get_queryset().all()
+
+
 class Tag(BaseModelWithSoftDelete):
     class Meta:
         db_table = "tags"
         verbose_name = "tag"
         verbose_name_plural = "tags"
 
-    objects = SoftDeleteManager.from_queryset(TagQuerySet)()
+    objects = TagModelManager()
 
     name = models.CharField(max_length=255, null=False, blank=False, unique=True)
+    split_name = models.CharField(max_length=1000, null=False, blank=False, default="")
+    first_letter = models.CharField(
+        max_length=1, null=False, blank=False, default="", db_index=True
+    )
     description = models.TextField(blank=True, null=True)
 
     category = models.ForeignKey(
@@ -54,3 +66,8 @@ class Tag(BaseModelWithSoftDelete):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.split_name = "".join(TextSplitter(self.name).split())
+        self.first_letter = self.split_name[0].upper()
+        super().save(*args, **kwargs)
