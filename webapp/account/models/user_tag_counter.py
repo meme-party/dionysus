@@ -1,5 +1,4 @@
-from config.models import BaseModel
-from config.models.base_model import BaseModelManager
+from config.models import BaseModel, BaseModelManager
 from config.settings.base import AUTH_USER_MODEL
 from django.db import models
 from django.db.models import Count, Q

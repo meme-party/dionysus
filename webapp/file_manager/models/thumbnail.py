@@ -1,4 +1,4 @@
-from config.models import BaseModelWithSoftDelete
+from config.models import BaseModelWithSoftDelete, SoftDeleteManager
 from django.db import models
 from django.utils.html import format_html
 
@@ -8,6 +8,8 @@ class Thumbnail(BaseModelWithSoftDelete):
         db_table = "thumbnails"
         verbose_name = "thumbnail"
         verbose_name_plural = "thumbnails"
+
+    objects = SoftDeleteManager()
 
     name = models.CharField(
         max_length=255,

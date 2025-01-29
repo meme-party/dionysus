@@ -1,4 +1,4 @@
-from meme.models.meme import Meme, MemeModelManager, MemeQuerySet
+from meme.models.meme import Meme
 
 
 class VideoMeme(Meme):
@@ -7,7 +7,6 @@ class VideoMeme(Meme):
     class Meta:
         proxy = True
 
-    objects = MemeModelManager.from_queryset(MemeQuerySet)()
     # TODO(koa): video가 무조건 있어야함을 validation으로 추가해야함.
 
     def __init__(self, *args, **kwargs):

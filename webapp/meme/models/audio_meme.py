@@ -1,4 +1,4 @@
-from meme.models.meme import Meme, MemeModelManager, MemeQuerySet
+from meme.models.meme import Meme
 
 
 class AudioMeme(Meme):
@@ -7,7 +7,6 @@ class AudioMeme(Meme):
     class Meta:
         proxy = True
 
-    objects = MemeModelManager.from_queryset(MemeQuerySet)()
     # TODO(koa): audio가 무조건 있어야함을 validation으로 추가해야함.
 
     def __init__(self, *args, **kwargs):

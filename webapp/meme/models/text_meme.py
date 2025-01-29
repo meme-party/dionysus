@@ -1,4 +1,4 @@
-from meme.models.meme import Meme, MemeModelManager, MemeQuerySet
+from meme.models.meme import Meme
 
 
 class TextMeme(Meme):
@@ -6,8 +6,6 @@ class TextMeme(Meme):
 
     class Meta:
         proxy = True
-
-    objects = MemeModelManager.from_queryset(MemeQuerySet)()
 
     def __init__(self, *args, **kwargs):
         self._meta.get_field("type").default = "Text"

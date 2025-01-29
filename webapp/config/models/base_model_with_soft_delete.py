@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils import timezone
+from psqlextra.manager import PostgresManager
 
-from .base_model import BaseModel, BaseModelManager
+from .base_model import BaseModel, BaseModelQuerySet
 
 
-class SoftDeleteManager(BaseModelManager):
+class SoftDeleteManager(PostgresManager.from_queryset(BaseModelQuerySet)):
     use_for_related_fields = True
 
     def get_queryset(self):

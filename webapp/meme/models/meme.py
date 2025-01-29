@@ -14,15 +14,6 @@ TYPE_CHOICES = (
 )
 
 
-class MemeModelManager(SoftDeleteManager):
-    use_for_related_fields = True
-
-    def get_queryset(self):
-        if self.model.MEME_TYPE == "":
-            return super().get_queryset().all()
-        return super().get_queryset().filter(type=self.model.MEME_TYPE)
-
-
 class MemeQuerySet(QuerySet):
     def preparing(self):
         return self.active().filter(published_at__isnull=True)
@@ -37,6 +28,15 @@ class MemeQuerySet(QuerySet):
         return self.filter(archived_at__isnull=False)
 
 
+class MemeModelManager(SoftDeleteManager.from_queryset(MemeQuerySet)):
+    use_for_related_fields = True
+
+    def get_queryset(self):
+        if self.model.MEME_TYPE == "":
+            return super().get_queryset().all()
+        return super().get_queryset().filter(type=self.model.MEME_TYPE)
+
+
 class Meme(BaseModelWithSoftDelete):
     MEME_TYPE = ""
 
@@ -49,7 +49,7 @@ class Meme(BaseModelWithSoftDelete):
             models.Index(fields=["type"]),
         ]
 
-    objects = MemeModelManager.from_queryset(MemeQuerySet)()
+    objects = MemeModelManager()
 
     type = models.CharField(
         verbose_name="meme type",

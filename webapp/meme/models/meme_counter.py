@@ -1,4 +1,4 @@
-from config.models import BaseModel
+from config.models import BaseModel, BaseModelManager
 from django.db import models
 
 
@@ -7,6 +7,8 @@ class MemeCounter(BaseModel):
         db_table = "meme_counters"
         verbose_name = "meme_counter"
         verbose_name_plural = "meme_counters"
+
+    objects = BaseModelManager()
 
     meme = models.OneToOneField("meme.Meme", on_delete=models.CASCADE)
     bookmarking_users_count = models.PositiveIntegerField(
