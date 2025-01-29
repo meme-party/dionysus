@@ -102,3 +102,19 @@ class Meme(BaseModelWithSoftDelete):
         on_delete=models.SET_NULL,
         null=True,
     )
+
+    audio = models.ForeignKey(
+        "file_manager.Audio",
+        verbose_name="audio",
+        related_name="meme",
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+
+    video = models.ForeignKey(
+        "file_manager.Video",
+        verbose_name="video",
+        related_name="meme",
+        on_delete=models.SET_NULL,
+        null=True,
+    )

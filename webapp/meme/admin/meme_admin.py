@@ -21,6 +21,8 @@ class MemeAdmin(ModelAdmin):
         "title",
         "type",
         "thumbnail",
+        "audio",
+        "video",
         "description",
         "original_link",
         "published_at",
