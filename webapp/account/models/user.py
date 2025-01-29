@@ -1,3 +1,4 @@
+from account.models.user_tag_counter import UserTagCounter
 from config.models import BaseModelWithSoftDelete
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -61,3 +62,6 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModelWithSoftDelete):
     @is_staff.setter
     def is_staff(self, value):
         self.is_admin = value
+
+    def reset_tag_counter(self):
+        UserTagCounter.reset_all_counters(self)

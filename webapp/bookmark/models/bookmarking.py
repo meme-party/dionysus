@@ -31,9 +31,16 @@ class Bookmarking(BaseModel):
         on_delete=models.CASCADE,
     )
 
-    @property
-    def user(self):
-        return self.bookmark.user
+    user = models.ForeignKey(
+        "account.User",
+        verbose_name="user",
+        related_name="bookmarkings",
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
         return f"{self.bookmark} - {self.meme}"
+
+    def save(self, *args, **kwargs):
+        self.user = self.bookmark.user
+        super().save(*args, **kwargs)

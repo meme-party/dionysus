@@ -8,5 +8,10 @@ class BookmarkingAdmin(ModelAdmin):
     search_fields = ("bookmark__title", "meme__title")
     list_filter = ("bookmark", "meme")
 
+    fields = (
+        "bookmark",
+        "meme",
+    )
+
 
 admin.site.register(Bookmarking, BookmarkingAdmin)
