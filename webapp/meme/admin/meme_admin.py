@@ -24,6 +24,26 @@ class MemeAdmin(ModelAdmin):
             meme.reset_all_counters()
         self.message_user(request, "All counters have been reset.")
 
+    def publish(self, request, queryset):
+        for meme in queryset:
+            meme.publish()
+        self.message_user(request, "All memes have been published.")
+
+    def archive(self, request, queryset):
+        for meme in queryset:
+            meme.archive()
+        self.message_user(request, "All memes have been archived.")
+
+    def undo_archive(self, request, queryset):
+        for meme in queryset:
+            meme.undo_archive()
+        self.message_user(request, "All memes have been unarchived.")
+
+    def undo_publish(self, request, queryset):
+        for meme in queryset:
+            meme.undo_publish()
+        self.message_user(request, "All memes have been unpublished.")
+
     list_display = ("title", "type", "created_at", "updated_at")
     list_filter = ("title", "type")
     search_fields = ("title", "description")
@@ -48,8 +68,15 @@ class MemeAdmin(ModelAdmin):
     readonly_fields = ["created_at", "updated_at", "deleted_at"]
 
     reset_all_counters.short_description = "Reset all counters"
-    actions = ["reset_all_counters"]
+    publish.short_description = "Publish"
+    archive.short_description = "Archive"
+    undo_archive.short_description = "Undo archive"
+    undo_publish.short_description = "Undo publish"
 
-
-# TODO: publish 액션, published_at에 시간 넣기
-# TODO: archive 액션, archived_at에 시간 넣기
+    actions = [
+        "reset_all_counters",
+        "publish",
+        "archive",
+        "undo_archive",
+        "undo_publish",
+    ]

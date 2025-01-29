@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import QuerySet
+from django.utils import timezone
 from meme.models.meme_counter import MemeCounter
 
 TYPE_CHOICES = (
@@ -17,6 +18,8 @@ class MemeModelManager(SoftDeleteManager):
     use_for_related_fields = True
 
     def get_queryset(self):
+        if self.model.MEME_TYPE == "":
+            return super().get_queryset().all()
         return super().get_queryset().filter(type=self.model.MEME_TYPE)
 
 
@@ -45,6 +48,8 @@ class Meme(BaseModelWithSoftDelete):
         indexes = [
             models.Index(fields=["type"]),
         ]
+
+    objects = MemeModelManager.from_queryset(MemeQuerySet)()
 
     type = models.CharField(
         verbose_name="meme type",
@@ -139,5 +144,24 @@ class Meme(BaseModelWithSoftDelete):
     def bookmarkings_count(self):
         return self.meme_counter.bookmarkings_count
 
+    def __str__(self):
+        return self.title
+
     def reset_all_counters(self):
         self.meme_counter.reset_all_counters()
+
+    def publish(self):
+        self.published_at = timezone.now()
+        self.save()
+
+    def archive(self):
+        self.archived_at = timezone.now()
+        self.save()
+
+    def undo_publish(self):
+        self.published_at = None
+        self.save()
+
+    def undo_archive(self):
+        self.archived_at = None
+        self.save()
