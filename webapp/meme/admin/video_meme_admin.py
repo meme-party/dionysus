@@ -6,4 +6,7 @@ from .meme_admin import MemeAdmin
 
 @admin.register(VideoMeme)
 class VideoMemeAdmin(MemeAdmin):
-    pass
+    def get_changeform_initial_data(self, request):
+        initial = super().get_changeform_initial_data(request)
+        initial["type"] = "Video"
+        return initial

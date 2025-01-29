@@ -6,4 +6,7 @@ from .meme_admin import MemeAdmin
 
 @admin.register(TextMeme)
 class TextMemeAdmin(MemeAdmin):
-    pass
+    def get_changeform_initial_data(self, request):
+        initial = super().get_changeform_initial_data(request)
+        initial["type"] = "Text"
+        return initial

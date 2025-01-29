@@ -108,6 +108,7 @@ class Meme(BaseModelWithSoftDelete):
         related_name="meme",
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
     )
 
     audio = models.ForeignKey(
@@ -116,6 +117,7 @@ class Meme(BaseModelWithSoftDelete):
         related_name="meme",
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
     )
 
     video = models.ForeignKey(
@@ -124,6 +126,7 @@ class Meme(BaseModelWithSoftDelete):
         related_name="meme",
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
     )
 
     @property
