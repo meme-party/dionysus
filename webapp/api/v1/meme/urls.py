@@ -1,14 +1,12 @@
-from django.urls import path
-
-from .views import MemeViewSet
+from api.v1.meme.views import MemeViewSet
+from django.urls import include, path
+from rest_framework_nested.routers import DefaultRouter
 
 app_name = "api.v1.meme"
 
+router = DefaultRouter()
+router.register(r"memes", MemeViewSet, basename="meme")
+
 urlpatterns = [
-    path("", MemeViewSet.as_view({"get": "list", "post": "create"}), name="meme-list"),
-    path(
-        "<int:pk>/",
-        MemeViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"}),
-        name="meme-detail",
-    ),
+    path("", include(router.urls)),
 ]

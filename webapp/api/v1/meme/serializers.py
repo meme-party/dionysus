@@ -15,18 +15,26 @@ class MemeSerializer(serializers.ModelSerializer):
     tag_ids = PrimaryKeyRelatedField(
         queryset=Tag.objects.all(),
         write_only=True,
+        many=True,
+        required=False,
     )
     thumbnail_id = PrimaryKeyRelatedField(
         queryset=Thumbnail.objects.all(),
         write_only=True,
+        required=False,
+        allow_null=True,
     )
     audio_id = PrimaryKeyRelatedField(
         queryset=Audio.objects.all(),
         write_only=True,
+        required=False,
+        allow_null=True,
     )
     video_id = PrimaryKeyRelatedField(
         queryset=Video.objects.all(),
         write_only=True,
+        required=False,
+        allow_null=True,
     )
 
     tags = TagSerializer(many=True, read_only=True)
