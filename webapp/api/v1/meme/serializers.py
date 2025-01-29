@@ -17,7 +17,9 @@ class MemeSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "title",
+            "type",
             "description",
+            "thumbnail",
             "original_link",
             "tag_ids",
             "tags",
@@ -25,7 +27,6 @@ class MemeSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
         read_only_fields = [
-            "type",
             "created_at",
             "updated_at",
         ]

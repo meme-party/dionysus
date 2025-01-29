@@ -12,13 +12,15 @@ class MemeTaggingInline(TabularInline):
 
 @admin.register(Meme)
 class MemeAdmin(ModelAdmin):
-    list_display = ("title", "created_at", "updated_at")
-    list_filter = ("title",)
+    list_display = ("title", "type", "created_at", "updated_at")
+    list_filter = ("title", "type")
     search_fields = ("title", "description")
     ordering = ("-created_at", "title")
     inlines = [MemeTaggingInline]
     fields = [
         "title",
+        "type",
+        "thumbnail",
         "description",
         "original_link",
         "published_at",

@@ -94,3 +94,11 @@ class Meme(BaseModelWithSoftDelete):
         through="tag.MemeTagging",
         related_name="meme",
     )
+
+    thumbnail = models.ForeignKey(
+        "file_manager.Thumbnail",
+        verbose_name="thumbnail",
+        related_name="meme",
+        on_delete=models.SET_NULL,
+        null=True,
+    )
