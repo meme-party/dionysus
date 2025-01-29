@@ -1,1 +1,2 @@
+from .favorite_tag_list_api_view import FavoriteTagListAPIView
 from .tag_list_api_view import TagListAPIView
