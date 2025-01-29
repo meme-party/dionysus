@@ -70,12 +70,12 @@ PACKAGE_APPS = [
 ]
 
 CUSTOM_APPS: List[str] = [
-    "api",
+    "account",
     "bookmark",
     "meme",
-    "account",
     "file_manager",
     "tag",
+    "api",
 ]
 
 INSTALLED_APPS = PRE_PACKAGE_APPS + DJANGO_APPS + PACKAGE_APPS + CUSTOM_APPS
