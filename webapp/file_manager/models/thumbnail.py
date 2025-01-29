@@ -9,6 +9,14 @@ class Thumbnail(BaseModelWithSoftDelete):
         verbose_name = "thumbnail"
         verbose_name_plural = "thumbnails"
 
+    name = models.CharField(
+        max_length=255,
+        verbose_name="이름",
+        null=False,
+        blank=False,
+        default="thumbnail",
+    )
+
     file = models.ImageField(
         upload_to="thumbnails/",
         verbose_name="썸네일 파일",
@@ -37,4 +45,4 @@ class Thumbnail(BaseModelWithSoftDelete):
         )
 
     def __str__(self):
-        return self.url
+        return self.name

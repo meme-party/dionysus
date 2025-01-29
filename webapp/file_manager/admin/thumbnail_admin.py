@@ -5,9 +5,12 @@ from unfold.admin import ModelAdmin
 
 @admin.register(Thumbnail)
 class ThumbnailAdmin(ModelAdmin):
-    list_display = ("id", "preview_image", "url", "file", "web_url")
-    search_fields = ("web_url",)
+    list_display = ("name", "preview_image", "url", "file", "web_url")
+    search_fields = (
+        "web_url",
+        "name",
+    )
     list_filter = ("file",)
 
-    fields = ("file", "web_url", "url")
+    fields = ("name", "file", "web_url", "url")
     readonly_fields = ("url",)
