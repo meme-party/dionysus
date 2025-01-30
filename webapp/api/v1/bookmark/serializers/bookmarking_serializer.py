@@ -19,6 +19,7 @@ class BookmarkingSerializer(ModelSerializer):
     class Meta:
         model = Bookmarking
         fields = [
+            "id",
             "bookmark_id",
             "meme_id",
             "meme",

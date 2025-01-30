@@ -1,4 +1,9 @@
-from api.v1.bookmark.views import BookmarkingViewSet, BookmarkViewSet
+from api.v1.bookmark.views import (
+    BookmarkingDeleteAPIView,
+    BookmarkingSyncAPIView,
+    BookmarkingViewSet,
+    BookmarkViewSet,
+)
 from django.urls import include, path
 from rest_framework_nested.routers import DefaultRouter, NestedSimpleRouter
 
@@ -13,4 +18,10 @@ bookmarking_router.register(r"bookmarkings", BookmarkingViewSet, basename="bookm
 urlpatterns = [
     path("", include(router.urls)),
     path("", include(bookmarking_router.urls)),
+    path("bookmarkings/", BookmarkingSyncAPIView.as_view(), name="bookmarking-sync"),
+    path(
+        "bookmarkings/<int:bookmarking_id>",
+        BookmarkingDeleteAPIView.as_view(),
+        name="bookmarking-delete",
+    ),
 ]

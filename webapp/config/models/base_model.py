@@ -1,8 +1,8 @@
 from django.db import models
-from psqlextra.manager import PostgresManager
+from psqlextra.manager import PostgresManager, PostgresQuerySet
 
 
-class BaseModelQuerySet(models.QuerySet):
+class BaseModelQuerySet(PostgresQuerySet):
     pass
 
 
