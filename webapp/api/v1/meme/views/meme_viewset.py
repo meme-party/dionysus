@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 
 
 class MemeViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Meme.objects.prefetch_related("tags", "tags__category").all()
+    queryset = Meme.objects.prefetch_related("tags", "tags__category").published()
 
     serializer_class = MemeSerializer
     permission_classes = [AllowAny]
