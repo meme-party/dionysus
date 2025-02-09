@@ -38,6 +38,8 @@ nplusone = "^1.0.0"
 django-silk = "^5.3.2"
 django-extensions = "^3.2.3"
 django-postgres-extra = "^2.0.8"
+factory-boy = "^3.3.3"
+faker = "^35.2.0"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^4.0.1"
