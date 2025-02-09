@@ -1,4 +1,5 @@
 from bookmark.models import Bookmark, Bookmarking
+from django.db.models.signals import post_save
 from drf_spectacular.utils import OpenApiExample, OpenApiParameter, extend_schema
 from meme.models import Meme
 from rest_framework import status
@@ -111,6 +112,9 @@ class BookmarkingSyncAPIView(APIView):
 
         if new_objects:
             Bookmarking.objects.bulk_create(new_objects)
+
+            for obj in new_objects:
+                post_save.send(sender=Bookmarking, instance=obj, created=True)
 
         return Response(
             {"detail": "Bookmarkings synced successfully."}, status=status.HTTP_200_OK
