@@ -40,6 +40,7 @@ django-extensions = "^3.2.3"
 django-postgres-extra = "^2.0.8"
 factory-boy = "^3.3.3"
 faker = "^35.2.0"
+uvicorn = "^0.34.0"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^4.0.1"
