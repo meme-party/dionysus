@@ -39,3 +39,4 @@ RUN chmod +x /start-webapp.sh
 # RUN poetry run python manage.py collectstatic --noinput
 
 EXPOSE ${PORT}
+ENTRYPOINT ["/start-webapp.sh"]
