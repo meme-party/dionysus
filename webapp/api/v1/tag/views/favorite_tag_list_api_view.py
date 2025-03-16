@@ -1,8 +1,8 @@
-from account.models import UserTagCounter
 from api.v1.tag.serializers import TagSerializer
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from tag.models import Tag
+from user.models import UserTagCounter
 
 
 class FavoriteTagListAPIView(ListAPIView):

@@ -1,14 +1,16 @@
 from django.urls import path
 
+from .views import KakaoLogin, kakao_callback, kakao_login
+
 app_name = "api.v1.account"
-
-from django.http import HttpResponse
-
-
-def test_view(request):
-    return HttpResponse("Test view")
 
 
 urlpatterns = [
-    path("test/", test_view, name="test"),
+    path("accounts/kakao/login/", kakao_login, name="kakao_login"),
+    path("accounts/kakao/login/callback/", kakao_callback, name="kakao_callback"),
+    path(
+        "accounts/kakao/login/finish/",
+        KakaoLogin.as_view(),
+        name="kakao_login_todjango",
+    ),
 ]
