@@ -2,7 +2,8 @@
 
 FROM python:3.13-bullseye as base
 
-ARG PORT
+ARG PORT=8000
+ENV PORT=${PORT}
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -38,3 +39,4 @@ RUN chmod +x /start-webapp.sh
 # RUN poetry run python manage.py collectstatic --noinput
 
 EXPOSE ${PORT}
+ENTRYPOINT ["/start-webapp.sh"]
