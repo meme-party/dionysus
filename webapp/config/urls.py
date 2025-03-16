@@ -26,9 +26,8 @@ urlpatterns = [
         "api/v1/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"
     ),
     path("api/", include("api.urls")),
-    path("api/accounts/", include("dj_rest_auth.urls")),
-    path("api/accounts/", include("allauth.urls")),
-    # path('api/accounts/', include('account.urls')),
+    path("api/v1/accounts/", include("dj_rest_auth.urls")),
+    path("api/v1/accounts/", include("allauth.urls")),
 ]
 
 if settings.DEBUG:

@@ -41,6 +41,7 @@ PRE_PACKAGE_APPS = [
 ]
 
 DJANGO_APPS = [
+    "django.contrib.sites",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -64,16 +65,17 @@ PACKAGE_APPS = [
     "markdownx",
     "rest_framework.authtoken",
     "allauth",
-    "allauth.socialaccount",
+    "allauth.account",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.kakao",
     "allauth.socialaccount.providers.github",
 ]
 
 CUSTOM_APPS: List[str] = [
-    "account",
+    "user",
     "bookmark",
     "meme",
     "file_manager",
@@ -102,7 +104,8 @@ DJANGO_MIDDLEWARES = [
 ]
 
 PACKAGE_MIDDLEWARES = [
-    "drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware"
+    "allauth.account.middleware.AccountMiddleware",
+    "drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware",
 ]
 
 CUSTOM_MIDDLEWARES: List[str] = []
@@ -163,7 +166,7 @@ USE_TZ = True
 
 # User model settings
 
-AUTH_USER_MODEL = "account.User"
+AUTH_USER_MODEL = "user.User"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -191,6 +194,7 @@ REST_FRAMEWORK = {
 
 REST_AUTH = {
     "USE_JWT": True,
+    "JWT_AUTH_HTTPONLY": False,
     "JWT_AUTH_COOKIE": "dionysus-app-auth",
     "JWT_AUTH_REFRESH_COOKIE": "dionysus-app-refresh",
 }
@@ -213,9 +217,9 @@ SPECTACULAR_SETTINGS = {
 
 REST_USE_JWT = True
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 
 SIMPLE_JWT = {
@@ -309,3 +313,10 @@ SILKY_AUTHORISATION = True
 # ========== END Silk settings ==========
 
 # TODO: CORS 설정 추가하기
+
+
+BASE_URL = "http://localhost:8000/"
+KAKAO_CALLBACK_URI = BASE_URL + "api/v1/accounts/kakao/login/callback/"
+
+KAKAO_REST_API_KEY = env("KAKAO_REST_API_KEY")
+KAKAO_CLIENT_SECRET_KEY = env("KAKAO_CLIENT_SECRET_KEY")

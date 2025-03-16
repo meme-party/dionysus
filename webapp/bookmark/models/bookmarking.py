@@ -32,7 +32,7 @@ class Bookmarking(BaseModel):
     )
 
     user = models.ForeignKey(
-        "account.User",
+        "user.User",
         verbose_name="user",
         related_name="bookmarkings",
         on_delete=models.CASCADE,

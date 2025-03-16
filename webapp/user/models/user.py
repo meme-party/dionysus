@@ -1,4 +1,3 @@
-from account.models.user_tag_counter import UserTagCounter
 from config.models import BaseModelWithSoftDelete
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -7,6 +6,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from user.models.user_tag_counter import UserTagCounter
 
 # https://medium.com/chanjongs-programming-diary/django-rest-framework%EB%A1%9C-%EC%86%8C%EC%85%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-api-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EA%B8%B0-google-kakao-github-2ccc4d49a781
 # TODO: Oauth2, JWT, Social login 기능에 따른 내용 추가 / 마이그레이션도 다시 파일 만들기

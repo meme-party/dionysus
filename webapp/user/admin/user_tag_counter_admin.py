@@ -1,6 +1,6 @@
-from account.models import UserTagCounter
 from django.contrib import admin
 from unfold.admin import ModelAdmin
+from user.models import UserTagCounter
 
 
 @admin.register(UserTagCounter)
