@@ -83,6 +83,10 @@ jobs:
           git rm -rf .
           mv webapp/swagger.yml .
           git add swagger.yml
+          if git diff --cached --quiet; then
+            echo "✅ No changes in Swagger YAML. Skipping commit & push."
+            exit 0
+          fi
           git commit -m "Update Swagger YAML"
           git push origin swagger-docs --force
         env:
