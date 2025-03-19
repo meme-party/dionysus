@@ -7,6 +7,9 @@ on:
       - completed
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
   DJANGO_SECRET_KEY: ${{ secrets.CI_DJANGO_KEY }}
   PORT: 8000
@@ -76,3 +79,5 @@ jobs:
           git add swagger.yml
           git commit -m "Update Swagger YAML"
           git push origin swagger-docs --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
