@@ -74,7 +74,13 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
-          git checkout -b swagger-docs || git checkout swagger-docs
+          if git ls-remote --exit-code origin swagger-docs; then
+            git fetch origin swagger-docs
+            git checkout swagger-docs
+          else
+            git checkout --orphan swagger-docs
+          fi
+          git rm -rf .
           mv webapp/swagger.yml .
           git add swagger.yml
           git commit -m "Update Swagger YAML"
