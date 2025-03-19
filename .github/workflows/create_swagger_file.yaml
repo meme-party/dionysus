@@ -1,0 +1,43 @@
+name: Generate Swagger and Push to Branch
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Webapp Image (Alpha)"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  generate-swagger:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies via Poetry
+        run: poetry install
+
+      - name: Generate Swagger YAML
+        working-directory: webapp
+        run: poetry run python manage.py spectacular --file swagger.yml
+
+      - name: Commit and push Swagger YML to branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+          git checkout -b swagger-docs || git checkout swagger-docs
+          mv webapp/swagger.yml .
+          git add swagger.yml
+          git commit -m "Update Swagger YAML"
+          git push origin swagger-docs --force
