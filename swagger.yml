@@ -7,6 +7,51 @@ info:
     name: shinkeonkim
     email: dev.shinkeonkim@gmail.com
 paths:
+  /api/v1/accounts/kakao/login/callback/:
+    get:
+      operationId: api_v1_accounts_kakao_login_callback_retrieve
+      description: 카카오 인증 후 받은 인가 코드(code)를 이용해 액세스 토큰을 요청하고, 회원가입 또는 로그인 처리를 합니다.
+      summary: Kakao OAuth Callback
+      parameters:
+      - in: query
+        name: code
+        schema:
+          type: string
+        description: 카카오 OAuth 인증 후 반환되는 인가 코드
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KakaoAuthResponse'
+              examples:
+                성공예제:
+                  value:
+                    access: jwt_access_token
+                    refresh: jwt_refresh_token
+                  summary: 정상적으로 JWT 토큰을 반환하는 경우
+                실패예제:
+                  value:
+                    err_msg: failed to retrieve access token
+                  summary: 인가 코드가 올바르지 않은 경우
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                description: 잘못된 요청
+                content:
+                  application/json:
+                    example:
+                      err_msg: failed to signin
+          description: ''
   /api/v1/accounts/kakao/login/finish/:
     post:
       operationId: api_v1_accounts_kakao_login_finish_create
@@ -974,6 +1019,18 @@ components:
       - access
       - refresh
       - user
+    KakaoAuthResponse:
+      type: object
+      properties:
+        access:
+          type: string
+          description: JWT Access Token
+        refresh:
+          type: string
+          description: JWT Refresh Token
+      required:
+      - access
+      - refresh
     Login:
       type: object
       properties:
