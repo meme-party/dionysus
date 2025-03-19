@@ -772,47 +772,6 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/v1/favorite-tags/:
-    get:
-      operationId: api_v1_favorite_tags_list
-      parameters:
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: per_page
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: search
-        required: false
-        in: query
-        description: A search term.
-        schema:
-          type: string
-      tags:
-      - api
-      security:
-      - cookieAuth: []
-      - jwtHeaderAuth: []
-      - jwtCookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaginatedTagList'
-          description: ''
   /api/v1/memes/:
     get:
       operationId: api_v1_memes_list
@@ -948,6 +907,72 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedTagList'
           description: ''
+  /api/v1/tags/by-first-letter/:
+    get:
+      operationId: api_v1_tags_by_first_letter_retrieve
+      description: 각 태그의 first_letter를 기준으로 그룹핑하여, 각 태그마다 요소별로 최대 5개씩만 가져오는 API View
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/tags/favorite/:
+    get:
+      operationId: api_v1_tags_favorite_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTagList'
+          description: ''
+  /api/v1/tags/first-letters/:
+    get:
+      operationId: api_v1_tags_first_letters_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          description: No response body
 components:
   schemas:
     Audio:
