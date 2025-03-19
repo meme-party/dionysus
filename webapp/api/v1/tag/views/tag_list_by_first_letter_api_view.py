@@ -1,12 +1,15 @@
 from collections import defaultdict
 
 from api.v1.tag.serializers import TagSerializer
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from tag.models import Tag
 
 
 class TagListByFirstLetterAPIView(APIView):
+    permission_classes = (AllowAny,)
+
     """
     각 태그의 first_letter를 기준으로 그룹핑하여, 각 태그마다 요소별로 최대 5개씩만 가져오는 API View
     """
