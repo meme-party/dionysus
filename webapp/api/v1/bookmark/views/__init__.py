@@ -1,4 +1,0 @@
-from .bookmark_viewset import BookmarkViewSet
-from .bookmarking_delete_api_view import BookmarkingDeleteAPIView
-from .bookmarking_sync_api_view import BookmarkingSyncAPIView
-from .bookmarking_viewset import BookmarkingViewSet
