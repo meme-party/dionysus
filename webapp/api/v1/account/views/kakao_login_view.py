@@ -9,7 +9,8 @@ from django.conf import settings
 from django.http import JsonResponse
 from drf_spectacular.utils import OpenApiExample, OpenApiParameter, extend_schema
 from rest_framework import serializers, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from user.models import User
 
 KAKAO_CALLBACK_URI = settings.KAKAO_CALLBACK_URI
@@ -72,6 +73,7 @@ class KakaoAuthResponseSerializer(serializers.Serializer):
     ],
 )
 @api_view(["GET"])
+@permission_classes([AllowAny])
 def kakao_callback(request):
     rest_api_key = getattr(settings, "KAKAO_REST_API_KEY")
     code = request.GET.get("code")
