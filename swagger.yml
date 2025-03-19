@@ -25,6 +25,7 @@ paths:
       - cookieAuth: []
       - jwtHeaderAuth: []
       - jwtCookieAuth: []
+      - {}
       responses:
         '200':
           content:
@@ -340,7 +341,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDetails'
+                $ref: '#/components/schemas/UserDetail'
           description: ''
     put:
       operationId: api_v1_accounts_user_update
@@ -359,13 +360,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserDetails'
+              $ref: '#/components/schemas/UserDetail'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/UserDetails'
+              $ref: '#/components/schemas/UserDetail'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UserDetails'
+              $ref: '#/components/schemas/UserDetail'
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -375,7 +376,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDetails'
+                $ref: '#/components/schemas/UserDetail'
           description: ''
     patch:
       operationId: api_v1_accounts_user_partial_update
@@ -394,13 +395,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedUserDetails'
+              $ref: '#/components/schemas/PatchedUserDetail'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedUserDetails'
+              $ref: '#/components/schemas/PatchedUserDetail'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedUserDetails'
+              $ref: '#/components/schemas/PatchedUserDetail'
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -410,7 +411,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDetails'
+                $ref: '#/components/schemas/UserDetail'
           description: ''
   /api/v1/bookmarkings/:
     post:
@@ -1271,9 +1272,9 @@ components:
           type: string
           format: date-time
           readOnly: true
-    PatchedUserDetails:
+    PatchedUserDetail:
       type: object
-      description: User model w/o password
+      description: UserSerializer를 확장하여 소셜 계정 정보를 포함
       properties:
         pk:
           type: integer
@@ -1283,6 +1284,11 @@ components:
           type: string
           format: email
           readOnly: true
+        social_account:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialAccount'
+          readOnly: true
     RestAuthDetail:
       type: object
       properties:
@@ -1291,6 +1297,21 @@ components:
           readOnly: true
       required:
       - detail
+    SocialAccount:
+      type: object
+      description: 사용자가 연결한 소셜 계정을 반환하는 Serializer
+      properties:
+        provider:
+          type: string
+          readOnly: true
+          title: 제공자
+        uid:
+          type: string
+          readOnly: true
+          title: 사용자 식별
+      required:
+      - provider
+      - uid
     SocialLogin:
       type: object
       properties:
@@ -1367,6 +1388,27 @@ components:
         * `Image` - Image
         * `Video` - Video
         * `Audio` - Audio
+    UserDetail:
+      type: object
+      description: UserSerializer를 확장하여 소셜 계정 정보를 포함
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        email:
+          type: string
+          format: email
+          readOnly: true
+        social_account:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialAccount'
+          readOnly: true
+      required:
+      - email
+      - pk
+      - social_account
     UserDetails:
       type: object
       description: User model w/o password
