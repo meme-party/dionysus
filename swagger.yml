@@ -833,6 +833,38 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedMemeList'
           description: ''
+  /api/v1/memes/{meme_id}/related:
+    get:
+      operationId: api_v1_memes_related_list
+      description: Retrieve a list of memes related to the given meme ID.
+      parameters:
+      - in: query
+        name: count
+        schema:
+          type: integer
+        description: Number of related memes to retrieve
+      - in: path
+        name: meme_id
+        schema:
+          type: integer
+        description: ID of the meme for which related memes are fetched
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meme'
+          description: ''
   /api/v1/memes/{id}/:
     get:
       operationId: api_v1_memes_retrieve
@@ -909,7 +941,24 @@ paths:
           description: ''
   /api/v1/tags/by-first-letter/:
     get:
-      operationId: api_v1_tags_by_first_letter_retrieve
+      operationId: api_v1_tags_by_first_letter_list
+      description: Retrieve tags grouped by their first letter, with a specified limit
+        per letter.
+      parameters:
+      - in: query
+        name: count
+        schema:
+          type: integer
+        description: Number of tags to retrieve per first letter
+      - in: query
+        name: order_by
+        schema:
+          type: string
+          enum:
+          - created_at
+          - name
+          - updated_at
+        description: Field to order tags by
       tags:
       - api
       security:
@@ -919,7 +968,13 @@ paths:
       - {}
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+          description: ''
   /api/v1/tags/favorite/:
     get:
       operationId: api_v1_tags_favorite_list
@@ -964,6 +1019,7 @@ paths:
   /api/v1/tags/first-letters/:
     get:
       operationId: api_v1_tags_first_letters_retrieve
+      description: Retrieve a list of distinct first letters from available tags.
       tags:
       - api
       security:
@@ -973,7 +1029,13 @@ paths:
       - {}
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+          description: ''
 components:
   schemas:
     Audio:
