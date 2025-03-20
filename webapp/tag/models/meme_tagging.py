@@ -31,8 +31,6 @@ class MemeTagging(BaseModelWithSoftDelete):
     )
 
     def clean(self):
-        super().clean()
-
         if self.deleted_at is None:
             pre_existing_meme_taggings = MemeTagging.objects.filter(meme=self.meme)
             if self.pk:
@@ -43,10 +41,6 @@ class MemeTagging(BaseModelWithSoftDelete):
             pre_existing_meme_taggings_count = pre_existing_meme_taggings.count()
             if pre_existing_meme_taggings_count >= 10:
                 raise ValidationError({"tag": "A Meme cannot have more than 10 tags."})
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.meme} - {self.tag}"
