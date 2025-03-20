@@ -10,7 +10,9 @@ class MemeCounter(BaseModel):
 
     objects = BaseModelManager()
 
-    meme = models.OneToOneField("meme.Meme", on_delete=models.CASCADE)
+    meme = models.OneToOneField(
+        "meme.Meme", on_delete=models.CASCADE, related_name="meme_counter"
+    )
     bookmarking_users_count = models.PositiveIntegerField(
         default=0, null=False, blank=False, help_text="북마크한 유저 수"
     )

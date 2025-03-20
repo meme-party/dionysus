@@ -140,6 +140,14 @@ class Meme(BaseModelWithSoftDelete):
         return counter
 
     @property
+    def views_count(self):
+        return self.meme_counter.views_count
+
+    @property
+    def viewers_count(self):
+        return self.meme_counter.viewers_count
+
+    @property
     def bookmarking_users_count(self):
         return self.meme_counter.bookmarking_users_count
 
