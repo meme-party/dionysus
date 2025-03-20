@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import Count, QuerySet
 from django.utils import timezone
-from meme.models.meme_counter import MemeCounter
 
 TYPE_CHOICES = (
     ("Text", "Text"),
@@ -148,11 +147,6 @@ class Meme(BaseModelWithSoftDelete):
     def bookmarking_users(self):
         user_model = get_user_model()
         return user_model.objects.filter(bookmarks__bookmarkings__meme=self).distinct()
-
-    @property
-    def meme_counter(self):
-        counter, created = MemeCounter.objects.get_or_create(meme=self)
-        return counter
 
     @property
     def views_count(self):
