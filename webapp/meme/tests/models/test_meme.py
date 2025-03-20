@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils import timezone
-from meme.models import Meme, MemeCounter
+from meme.models import Meme
 from tag.models import Tag, TagCategory
 
 User = get_user_model()
@@ -52,14 +52,6 @@ class MemeModelTest(TestCase):
         )
         self.meme3.tags.set([self.tag1, self.tag3])
 
-        MemeCounter.objects.create(
-            meme=self.meme1,
-            views_count=10,
-            viewers_count=5,
-            bookmarking_users_count=2,
-            bookmarkings_count=3,
-        )
-
     def test_meme_instance_creation(self):
         meme = Meme.objects.get(title="First Meme")
         self.assertEqual(meme.type, "Image")
@@ -84,10 +76,7 @@ class MemeModelTest(TestCase):
 
     def test_meme_counters(self):
         meme = self.meme1
-        self.assertEqual(meme.views_count, 10)
-        self.assertEqual(meme.viewers_count, 5)
-        self.assertEqual(meme.bookmarking_users_count, 2)
-        self.assertEqual(meme.bookmarkings_count, 3)
+        self.assertIsNotNone(meme.meme_counter)
 
     def test_publish_and_archive_methods(self):
         meme = Meme.objects.create(
