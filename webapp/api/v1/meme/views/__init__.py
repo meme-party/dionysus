@@ -1,1 +1,2 @@
 from .meme_viewset import MemeViewSet
+from .related_meme_list_api_view import RelatedMemeListAPIView

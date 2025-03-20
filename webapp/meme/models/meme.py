@@ -2,7 +2,7 @@ from config.models import BaseModelWithSoftDelete, SoftDeleteManager
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import QuerySet
+from django.db.models import Count, QuerySet
 from django.utils import timezone
 from meme.models.meme_counter import MemeCounter
 
@@ -128,6 +128,21 @@ class Meme(BaseModelWithSoftDelete):
         null=True,
         blank=True,
     )
+
+    @property
+    def related_memes(self):
+        current_tag_ids = self.tags.values_list("id", flat=True)
+
+        return (
+            Meme.objects.filter(tags__in=current_tag_ids)
+            .exclude(pk=self.pk)
+            .annotate(
+                common_tags_count=Count(
+                    "tags", filter=models.Q(tags__in=current_tag_ids), distinct=True
+                )
+            )
+            .order_by("-common_tags_count", "-published_at")
+        )
 
     @property
     def bookmarking_users(self):
