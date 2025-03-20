@@ -21,7 +21,19 @@ class MemeCounter(BaseModel):
         help_text="북마크 수 (북마크한 유저 수와 다를 수 있음, 한 유저가 중복 북마크 가능)",
     )
 
-    # TODO(koa): 조회수 추가
+    views_count = models.PositiveIntegerField(
+        default=0,
+        null=False,
+        blank=False,
+        help_text="조회 수",
+    )
+
+    viewers_count = models.PositiveIntegerField(
+        default=0,
+        null=False,
+        blank=False,
+        help_text="조회자 수",
+    )
 
     def reset_all_counters(self):
         self.reset_bookmarking_users_count()
