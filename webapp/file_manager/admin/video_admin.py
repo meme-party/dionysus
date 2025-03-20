@@ -5,15 +5,23 @@ from unfold.admin import ModelAdmin
 
 @admin.register(Video)
 class VideoAdmin(ModelAdmin):
-    list_display = ("name", "file")
+    list_display = ("name", "file", "link", "link_type")
     search_fields = (
         "file",
         "name",
+        "link",
+        "link_type",
     )
-    list_filter = ("file",)
+    list_filter = (
+        "name",
+        "link",
+        "link_type",
+    )
 
     fields = (
         "name",
         "file",
+        "link",
+        "link_type",
     )
-    readonly_fields = ()
+    readonly_fields = ("type",)
