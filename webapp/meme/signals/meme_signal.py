@@ -1,10 +1,13 @@
 from django.db.models.signals import post_save
-from django.dispatch import receiver
-from meme.models import Meme, MemeCounter
+from meme.models import AudioMeme, ImageMeme, Meme, MemeCounter, TextMeme, VideoMeme
+
+MEME_MODELS = (Meme, ImageMeme, AudioMeme, TextMeme, VideoMeme)
 
 
-@receiver(post_save, sender=Meme)
 def create_meme_counter(sender, instance, created, **kwargs):
-    if created:
-        if not hasattr(instance, "meme_counter"):
-            MemeCounter.objects.create(meme=instance)
+    if not hasattr(instance, "meme_counter"):
+        MemeCounter.objects.create(meme=instance)
+
+
+for meme_model in MEME_MODELS:
+    post_save.connect(create_meme_counter, sender=meme_model)

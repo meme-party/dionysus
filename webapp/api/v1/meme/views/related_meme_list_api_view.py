@@ -34,5 +34,7 @@ class RelatedMemeListAPIView(APIView):
         count = int(request.query_params.get("count", 10))
         meme = get_object_or_404(Meme, pk=meme_id)
         related_memes = meme.related_memes[:count]
-        related_memes = MemeSerializer(related_memes, many=True).data
+        related_memes = MemeSerializer(
+            related_memes, many=True, context={"request": request}
+        ).data
         return Response(related_memes)
