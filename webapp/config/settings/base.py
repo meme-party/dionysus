@@ -7,6 +7,7 @@ from datetime import timedelta
 from typing import List
 
 import environ
+import sentry_sdk
 from django.templatetags.static import static
 
 # Default Environment Variables
@@ -319,4 +320,16 @@ BASE_URL = "http://localhost:8000/"
 KAKAO_CALLBACK_URI = BASE_URL + "api/v1/accounts/kakao/login/callback/"
 
 KAKAO_REST_API_KEY = env("KAKAO_REST_API_KEY", default="")
-KAKAO_CLIENT_SECRET_KEY = env("KAKAO_CLIENT_SECRET_KEY", default="")
+
+
+# ========== Sentry settings ==========
+
+sentry_sdk.init(
+    dsn=env("SENTRY_DSN"),
+    # Add data like request headers and IP for users,
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+    send_default_pii=True,
+    traces_sample_rate=1.0,
+)
+
+# ========== END Sentry settings ==========
