@@ -1,4 +1,4 @@
-from config.models import BaseModelWithSoftDelete
+from config.models import BaseModel, BaseModelManager
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -12,7 +12,7 @@ from user.models.user_tag_counter import UserTagCounter
 # TODO: Oauth2, JWT, Social login 기능에 따른 내용 추가 / 마이그레이션도 다시 파일 만들기
 
 
-class UserManager(BaseUserManager):
+class UserManager(BaseUserManager, BaseModelManager):
     def create_user(self, email, password=None, **extra_fields):
         """Create and return a regular account."""
         if not email:
@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser, PermissionsMixin, BaseModelWithSoftDelete):
+class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     email = models.EmailField(unique=True)
     username = models.CharField(
         max_length=30, blank=True, unique=True, verbose_name=_("username")
