@@ -39,6 +39,7 @@ PRE_PACKAGE_APPS = [
     "unfold.contrib.import_export",
     "unfold.contrib.guardian",
     "unfold.contrib.simple_history",
+    "corsheaders",
 ]
 
 DJANGO_APPS = [
@@ -89,6 +90,7 @@ INSTALLED_APPS = PRE_PACKAGE_APPS + DJANGO_APPS + PACKAGE_APPS + CUSTOM_APPS
 # Middleware settings
 
 PRE_PACKAGE_MIDDLEWARES = [
+    "corsheaders.middleware.CorsMiddleware",
     "django_guid.middleware.guid_middleware",
     "nplusone.ext.django.NPlusOneMiddleware",
     "silk.middleware.SilkyMiddleware",
@@ -313,8 +315,14 @@ SILKY_AUTHORISATION = True
 
 # ========== END Silk settings ==========
 
-# TODO: CORS 설정 추가하기
-
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "https://alpha.memez.party",
+    "https://alpha-api.memez.party",
+    "https://api.memez.party",
+    "https://memez.party",
+]
 
 BASE_URL = "http://localhost:8000/"
 KAKAO_CALLBACK_URI = BASE_URL + "api/v1/accounts/kakao/login/callback/"
