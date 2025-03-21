@@ -2,8 +2,8 @@ from json.decoder import JSONDecodeError
 
 import requests
 from allauth.socialaccount.models import SocialAccount
-from allauth.socialaccount.providers.kakao import views as kakao_view
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from api.v1.account.adapters import CustomKakaoOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
 from django.conf import settings
 from django.http import JsonResponse
@@ -157,7 +157,7 @@ def kakao_callback(request):
 
 
 class KakaoLogin(SocialLoginView):
-    adapter_class = kakao_view.KakaoOAuth2Adapter
+    adapter_class = CustomKakaoOAuth2Adapter
     client_class = OAuth2Client
     callback_url = None
 
