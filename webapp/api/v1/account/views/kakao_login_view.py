@@ -129,7 +129,8 @@ def kakao_callback(request):
         data = {"access_token": access_token, "code": code}
 
         accept = requests.post(
-            f"{BASE_URL}api/v1/accounts/kakao/login/finish/", data=data
+            f"{BASE_URL}api/v1/accounts/kakao/login/finish/?redirect_uri={redirect_uri}",
+            data=data,
         )
 
         accept_status = accept.status_code
@@ -141,7 +142,8 @@ def kakao_callback(request):
     except User.DoesNotExist:
         data = {"access_token": access_token, "code": code}
         accept = requests.post(
-            f"{BASE_URL}api/v1/accounts/kakao/login/finish/", data=data
+            f"{BASE_URL}api/v1/accounts/kakao/login/finish/?redirect_uri={redirect_uri}",
+            data=data,
         )
 
         accept_status = accept.status_code
@@ -155,10 +157,11 @@ def kakao_callback(request):
 class KakaoLogin(SocialLoginView):
     adapter_class = kakao_view.KakaoOAuth2Adapter
     client_class = OAuth2Client
-    callback_url = KAKAO_CALLBACK_URI
+    callback_url = None
 
     def post(self, request, *args, **kwargs):
         self.request = request
+        self.callback_url = request.query_params.get("redirect_uri", KAKAO_CALLBACK_URI)
         self.serializer = self.get_serializer(data=self.request.data)
 
         self.serializer.is_valid(raise_exception=True)
