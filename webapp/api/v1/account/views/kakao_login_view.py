@@ -46,6 +46,13 @@ class KakaoAuthResponseSerializer(serializers.Serializer):
             type=str,
             location=OpenApiParameter.QUERY,
         ),
+        OpenApiParameter(
+            name="redirect_uri",
+            description="redirect_uri",
+            required=False,
+            type=str,
+            location=OpenApiParameter.QUERY,
+        ),
     ],
     request=KakaoAuthRequestSerializer,  # 요청 스키마
     responses={
@@ -77,7 +84,7 @@ class KakaoAuthResponseSerializer(serializers.Serializer):
 def kakao_callback(request):
     rest_api_key = getattr(settings, "KAKAO_REST_API_KEY")
     code = request.GET.get("code")
-    redirect_uri = KAKAO_CALLBACK_URI
+    redirect_uri = request.GET.get("redirect_uri", KAKAO_CALLBACK_URI)
     """
     Access Token Request
     """
