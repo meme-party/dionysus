@@ -94,7 +94,7 @@ def kakao_callback(request):
     token_req_json = token_req.json()
     error = token_req_json.get("error")
     if error is not None:
-        raise JSONDecodeError(error)
+        raise JSONDecodeError(error, doc=token_req.text, pos=0)
     access_token = token_req_json.get("access_token")
     """
     Email Request
