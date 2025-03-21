@@ -14,6 +14,8 @@ class IncreaseMemeViewCountService:
 
     @transaction.atomic()
     def perform(self):
+        if self.user.is_anonymous:  # NOTE: 익명 유저의 조회수를 어떻게 처리할 것인가?
+            return
         meme_view_created = self.create_or_update_meme_view()
         self.increase_meme_view_count()
 
