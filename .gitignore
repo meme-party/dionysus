@@ -35,3 +35,5 @@ webapp/media/*
 
 # OS files
 .DS_Store
+
+.coverage
