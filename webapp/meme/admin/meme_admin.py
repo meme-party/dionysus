@@ -19,6 +19,12 @@ class MemeCounterInline(TabularInline):
 
 @admin.register(Meme)
 class MemeAdmin(ModelAdmin):
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if obj is None:
+            form.base_fields["creator"].initial = request.user
+        return form
+
     def reset_all_counters(self, request, queryset):
         for meme in queryset:
             meme.reset_all_counters()
