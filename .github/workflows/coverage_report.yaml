@@ -1,0 +1,173 @@
+name: Django Coverage Report
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+    # 수동 실행 옵션
+
+env:
+  DJANGO_SECRET_KEY: ${{ secrets.CI_DJANGO_KEY }}
+  PORT: 8000
+  DJANGO_SETTINGS_MODULE: config.settings.test
+  DEBUG: "True"
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: dionysus_db
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: ${{ secrets.CI_POSTGRES_PASSWORD }}
+  COVERAGE_BRANCH: coverage-report
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PORT: 5432
+          POSTGRES_DB: dionysus_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ${{ secrets.CI_POSTGRES_PASSWORD }}
+        ports:
+        - 5432:5432
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # 전체 히스토리 가져오기
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.13'
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies via Poetry
+      run: |
+        poetry install
+        poetry add coverage[toml] pytest pytest-django pytest-cov --dev
+
+    - name: Configure environment variables
+      run: |
+        echo "DJANGO_SETTINGS_MODULE=config.settings.test" >> $GITHUB_ENV
+        echo "DATABASE_URL=postgres://postgres:${{ secrets.CI_POSTGRES_PASSWORD }}@localhost:5432/dionysus_db" >> $GITHUB_ENV
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        for i in {1..10}; do
+          pg_isready -h localhost -p 5432 && break
+          sleep 5
+        done
+
+    - name: Run Django migrations
+      working-directory: webapp
+      run: poetry run python manage.py migrate
+
+    - name: Create coverage configuration
+      run: |
+        cat > .coveragerc << EOF
+        [run]
+        source =
+            webapp
+        omit =
+            */migrations/*
+            */tests/*
+            */admin.py
+            */apps.py
+            */settings.py
+            */wsgi.py
+            */asgi.py
+            manage.py
+
+        [report]
+        exclude_lines =
+            pragma: no cover
+            def __repr__
+            raise NotImplementedError
+            if __name__ == .__main__.:
+            pass
+            raise ImportError
+
+        [html]
+        directory = coverage_html_report
+        EOF
+
+    - name: Run tests with coverage
+      working-directory: webapp
+      run: |
+        poetry run python -m coverage run manage.py test
+        poetry run python -m coverage report -m
+        poetry run python -m coverage html
+        poetry run python -m coverage xml
+        poetry run python -m coverage json
+
+    - name: Configure Git user
+      run: |
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+
+    - name: Create or update coverage branch
+      run: |
+        # 브랜치가 존재하는지 확인
+        if git ls-remote --heads origin $COVERAGE_BRANCH | grep -q $COVERAGE_BRANCH; then
+          git fetch origin $COVERAGE_BRANCH
+          git checkout $COVERAGE_BRANCH
+        else
+          # 새 브랜치 생성
+          git checkout -b $COVERAGE_BRANCH
+        fi
+
+        # 이전 커버리지 파일 삭제 (있는 경우)
+        rm -rf coverage_reports || true
+        mkdir -p coverage_reports
+
+        # 새 커버리지 파일 복사
+        cp -r webapp/htmlcov/* coverage_reports/
+        cp webapp/coverage.xml coverage_reports/ || echo "XML report not found"
+        cp webapp/coverage.json coverage_reports/ || echo "JSON report not found"
+
+        # README 파일 생성
+        cat > coverage_reports/README.md << EOF
+        # Django Test Coverage Report
+
+        This branch contains the test coverage reports for the Dionysus Django project.
+        Last updated: $(date)
+
+        ## Coverage Summary
+
+        \`\`\`
+        $(poetry run python -m coverage report -m)
+        \`\`\`
+
+        ## Viewing the HTML Report
+
+        To view the HTML coverage report:
+        1. Clone this branch locally
+        2. Open \`index.html\` in your browser
+
+        Or browse the files directly in GitHub.
+        EOF
+
+        # 변경사항 커밋 및 푸시
+        git add coverage_reports/
+        git commit -m "Update coverage report - $(date)" || echo "No changes to commit"
+        git push origin $COVERAGE_BRANCH
+
+    - name: Upload coverage report as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: webapp/htmlcov/
+        retention-days: 14

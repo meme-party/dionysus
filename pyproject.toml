@@ -64,32 +64,3 @@ faker = "^35.2.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.coverage.run]
-source = ["webapp"]
-omit = [
-    "*/migrations/*",
-    "*/tests/*",
-    "*/admin.py",
-    "*/apps.py",
-    "*/urls.py",
-    "*/wsgi.py",
-    "*/asgi.py",
-    "*/settings.py",
-    "*/manage.py",
-]
-
-[tool.coverage.report]
-exclude_lines = [
-    "pragma: no cover",
-    "def __repr__",
-    "raise NotImplementedError",
-    "if __name__ == .__main__.:",
-    "pass",
-    "raise ImportError",
-]
-show_missing = true
-fail_under = 80  # 커버리지 최소 기준 (필요에 따라 조정)
-
-[tool.coverage.html]
-directory = "coverage_html_report"
