@@ -12,6 +12,9 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
+import config.admin
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("silk/", include("silk.urls", namespace="silk")),
