@@ -202,6 +202,7 @@ REST_AUTH = {
     "JWT_AUTH_HTTPONLY": False,
     "JWT_AUTH_COOKIE": "dionysus-app-auth",
     "JWT_AUTH_REFRESH_COOKIE": "dionysus-app-refresh",
+    "SIGNUP_FIELDS": {"email": {"required": True}, "username": {"required": False}},
 }
 
 SPECTACULAR_SETTINGS = {
@@ -225,7 +226,8 @@ REST_USE_JWT = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_LOGIN_METHODS = {"email"}
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
