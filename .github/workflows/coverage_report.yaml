@@ -53,6 +53,22 @@ jobs:
       with:
         python-version: '3.13'
 
+    - name: Cache Poetry dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-poetry-
+
+    - name: Cache Coverage data
+      uses: actions/cache@v3
+      with:
+        path: .coverage
+        key: ${{ runner.os }}-coverage-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-coverage-
+
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
