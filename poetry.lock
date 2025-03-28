@@ -1391,6 +1391,17 @@ yaml = ["PyYAML (>=3.10)"]
 zookeeper = ["kazoo (>=2.8.0)"]
 
 [[package]]
+name = "lorem"
+version = "0.1.1"
+description = "Generator for random text that looks like Latin."
+optional = false
+python-versions = "*"
+files = [
+    {file = "lorem-0.1.1-py3-none-any.whl", hash = "sha256:c9c2914b5a772022417c398bd74b7bbd712e73ff029ba82720855e458f13ae42"},
+    {file = "lorem-0.1.1.tar.gz", hash = "sha256:785f4109a241fc2891e59705e85d065f6e6d3ed6ad91750a8cb54d4f3e59d934"},
+]
+
+[[package]]
 name = "markdown"
 version = "3.7"
 description = "Python implementation of John Gruber's Markdown."
@@ -2400,4 +2411,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "82bbdccc043c5f0c95bd4a2c66e0b0bb39179a22d00f3948435aaf9e0fa53cd1"
+content-hash = "fbc1f6173beb12f59a22ab5b030a6709eccd1b0611bb90b3f914905c7a32dce1"
