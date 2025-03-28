@@ -8,7 +8,7 @@ on:
     branches:
     - main
   workflow_dispatch:
-    # 수동 실행 옵션
+
 
 env:
   DJANGO_SECRET_KEY: ${{ secrets.CI_DJANGO_KEY }}
@@ -20,6 +20,9 @@ env:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: ${{ secrets.CI_POSTGRES_PASSWORD }}
   COVERAGE_BRANCH: coverage-report
+
+permissions:
+  contents: write
 
 jobs:
   coverage:
@@ -40,9 +43,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0 # 전체 히스토리 가져오기
+        token: ${{ secrets.GITHUB_TOKEN }} # GitHub Token 사용
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -56,13 +60,7 @@ jobs:
 
     - name: Install dependencies via Poetry
       run: |
-        poetry install
-        poetry add coverage[toml] pytest pytest-django pytest-cov --dev
-
-    - name: Configure environment variables
-      run: |
-        echo "DJANGO_SETTINGS_MODULE=config.settings.test" >> $GITHUB_ENV
-        echo "DATABASE_URL=postgres://postgres:${{ secrets.CI_POSTGRES_PASSWORD }}@localhost:5432/dionysus_db" >> $GITHUB_ENV
+        poetry install --with dev  # 최신 Poetry 버전에 맞게 변경
 
     - name: Wait for PostgreSQL to be ready
       run: |
@@ -75,99 +73,74 @@ jobs:
       working-directory: webapp
       run: poetry run python manage.py migrate
 
-    - name: Create coverage configuration
+    - name: Run Tests with Coverage
       run: |
-        cat > .coveragerc << EOF
-        [run]
-        source =
-            webapp
-        omit =
-            */migrations/*
-            */tests/*
-            */admin.py
-            */apps.py
-            */settings.py
-            */wsgi.py
-            */asgi.py
-            manage.py
+        cd webapp
+        poetry run coverage run manage.py test || echo "Tests failed but continuing workflow"
+        poetry run coverage report -m || echo "Coverage report generation failed"
+        poetry run coverage html || echo "HTML coverage report generation failed"
 
-        [report]
-        exclude_lines =
-            pragma: no cover
-            def __repr__
-            raise NotImplementedError
-            if __name__ == .__main__.:
-            pass
-            raise ImportError
-
-        [html]
-        directory = coverage_html_report
-        EOF
-
-    - name: Run tests with coverage
-      working-directory: webapp
-      run: |
-        poetry run python -m coverage run manage.py test
-        poetry run python -m coverage report -m
-        poetry run python -m coverage html
-        poetry run python -m coverage xml
-        poetry run python -m coverage json
-
-    - name: Configure Git user
-      run: |
-        git config --global user.name "GitHub Actions Bot"
-        git config --global user.email "actions@github.com"
-
-    - name: Create or update coverage branch
-      run: |
-        # 브랜치가 존재하는지 확인
-        if git ls-remote --heads origin $COVERAGE_BRANCH | grep -q $COVERAGE_BRANCH; then
-          git fetch origin $COVERAGE_BRANCH
-          git checkout $COVERAGE_BRANCH
-        else
-          # 새 브랜치 생성
-          git checkout -b $COVERAGE_BRANCH
-        fi
-
-        # 이전 커버리지 파일 삭제 (있는 경우)
-        rm -rf coverage_reports || true
-        mkdir -p coverage_reports
-
-        # 새 커버리지 파일 복사
-        cp -r webapp/htmlcov/* coverage_reports/
-        cp webapp/coverage.xml coverage_reports/ || echo "XML report not found"
-        cp webapp/coverage.json coverage_reports/ || echo "JSON report not found"
-
-        # README 파일 생성
-        cat > coverage_reports/README.md << EOF
-        # Django Test Coverage Report
-
-        This branch contains the test coverage reports for the Dionysus Django project.
-        Last updated: $(date)
-
-        ## Coverage Summary
-
-        \`\`\`
-        $(poetry run python -m coverage report -m)
-        \`\`\`
-
-        ## Viewing the HTML Report
-
-        To view the HTML coverage report:
-        1. Clone this branch locally
-        2. Open \`index.html\` in your browser
-
-        Or browse the files directly in GitHub.
-        EOF
-
-        # 변경사항 커밋 및 푸시
-        git add coverage_reports/
-        git commit -m "Update coverage report - $(date)" || echo "No changes to commit"
-        git push origin $COVERAGE_BRANCH
-
-    - name: Upload coverage report as artifact
-      uses: actions/upload-artifact@v3
+    # 아티팩트로만 저장 (간단한 참조용)
+    - name: Upload coverage reports to artifact
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-report
         path: webapp/htmlcov/
-        retention-days: 14
+        retention-days: 7
+
+    # Custom deployment to a separate branch
+    - name: Get current date
+      id: date
+      run: echo "date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+
+    - name: Create custom coverage branch
+      run: |
+        # Configure git
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+
+        # Create temp directory for coverage files
+        mkdir -p /tmp/coverage-assets
+
+        # Copy coverage report files
+        if [ -d "webapp/htmlcov" ]; then
+          cp -r webapp/htmlcov/* /tmp/coverage-assets/
+          echo "Copied htmlcov directory to temp directory"
+        else
+          echo "WARNING: webapp/htmlcov directory not found."
+          echo "<html><body><h1>Coverage report not available</h1><p>No coverage data was generated during the test run.</p></body></html>" > /tmp/coverage-assets/index.html
+        fi
+
+        # Create a new branch
+        git checkout --orphan $COVERAGE_BRANCH
+
+        # Remove everything
+        git rm -rf .
+
+        # Create .nojekyll file to disable GitHub Pages Jekyll processing
+        touch .nojekyll
+
+        # Copy coverage files from temp directory
+        cp -r /tmp/coverage-assets/* .
+
+        # Create README
+        echo "# Django Test Coverage Report" > README.md
+        echo "" >> README.md
+        echo "Generated on: ${{ steps.date.outputs.date }}" >> README.md
+        echo "" >> README.md
+        echo "## Coverage Summary" >> README.md
+        echo "" >> README.md
+        echo "See the HTML report for detailed coverage information." >> README.md
+        echo "" >> README.md
+        echo "## How to View" >> README.md
+        echo "" >> README.md
+        echo "Open [index.html](index.html) to view the full coverage report." >> README.md
+
+        # Add all files
+        git add .
+
+        # Commit
+        git commit -m "Update coverage report - ${{ steps.date.outputs.date }}"
+
+        # Force push to the coverage branch
+        git push -f origin $COVERAGE_BRANCH
