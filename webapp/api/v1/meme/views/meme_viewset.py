@@ -18,9 +18,10 @@ class MemeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = MemeSerializer
     permission_classes = [AllowAny]
 
-    ordering_fields = ["created_at", "title", "popularity"]
+    ordering_fields = ["id", "created_at", "title", "popularity"]
     search_fields = ["title", "tags__name"]
     filterset_fields = ["type", "tags__category__name"]
+    ordering = ["-id"]
 
     def get_queryset(self):
         return (
@@ -42,7 +43,7 @@ class MemeViewSet(viewsets.ReadOnlyModelViewSet):
                     output_field=FloatField(),
                 )
             )
-        )
+        ).order_by('id')
 
     def retrieve(self, request, *args, **kwargs):
         meme = self.get_object()

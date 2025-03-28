@@ -8,6 +8,7 @@ class BookmarkViewSet(viewsets.ModelViewSet):
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
     permission_classes = [IsAuthenticated]
+    ordering = ('-id',)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

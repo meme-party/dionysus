@@ -11,6 +11,7 @@ class BookmarkingViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (IsAuthenticated,)
     search_fields = ["meme__title"]
     ordering_fields = ["created_at", "updated_at", "meme__title"]
+    ordering = ("-id",)
 
     def get_queryset(self):
         bookmark_pk = self.kwargs.get("bookmark_pk")
