@@ -39,11 +39,12 @@ class MemeViewSet(viewsets.ReadOnlyModelViewSet):
                         + F("meme_counter__viewers_count")
                         * POPULARITY_WEIGHTS["viewers_count"]
                     )
-                    / Extract(Now() - F("updated_at"), "epoch"),
+                    / Extract(Now() - F("updated_at"), "epoch")
+                    + 1,
                     output_field=FloatField(),
                 )
             )
-        ).order_by('id')
+        ).order_by("id")
 
     def retrieve(self, request, *args, **kwargs):
         meme = self.get_object()

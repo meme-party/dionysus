@@ -36,14 +36,12 @@ class TagListAPIView(ListAPIView):
                 ),
                 # 인기도 점수 계산
                 popularity=ExpressionWrapper(
-                    (
+                    -(
                         F("memes_count") * TAG_POPULARITY_WEIGHTS["memes_count"]
                         + F("bookmarkings_count")
                         * TAG_POPULARITY_WEIGHTS["bookmarkings_count"]
                     )
-                    / (
-                        Extract(Now() - F("created_at"), "epoch") + 86400
-                    ),  # 1일(86400초)을 더해 0으로 나누는 것 방지
+                    / (Extract(Now() - F("created_at"), "epoch") + 1),
                     output_field=FloatField(),
                 ),
             )
