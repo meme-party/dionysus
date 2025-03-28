@@ -43,6 +43,11 @@ faker = "^35.2.0"
 uvicorn = "^0.34.0"
 sentry-sdk = {extras = ["django"], version = "^2.23.1"}
 django-cors-headers = "^4.7.0"
+celery = "^5.4.0"
+django-celery-beat = "^2.6.0"
+django-celery-results = "^2.5.1"
+redis = "^5.0.4"
+flower = "^2.0.1"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^4.0.1"

@@ -74,6 +74,8 @@ PACKAGE_APPS = [
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.kakao",
     "allauth.socialaccount.providers.github",
+    "django_celery_beat",
+    "django_celery_results",
 ]
 
 CUSTOM_APPS: List[str] = [
@@ -342,3 +344,23 @@ if not DEBUG:
     )
 
 # ========== END Sentry settings ==========
+
+# ========== Celery settings ==========
+
+REDIS_HOST = env("REDIS_HOST", default="redis")
+REDIS_PORT = env("REDIS_PORT", default="6379")
+CELERY_BROKER_URL = env(
+    "CELERY_BROKER_URL", default=f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+)
+CELERY_RESULT_BACKEND = env(
+    "CELERY_RESULT_BACKEND", default=f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+)
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+
+# Celery Beat 설정
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+# ========== END Celery settings ==========

@@ -18,8 +18,10 @@ services:
       - "${PORT}:${PORT}"
     depends_on:
       - db
+      - redis
     entrypoint:
       - /start-webapp.sh
+
   db:
     image: postgres:17
     expose:
@@ -38,6 +40,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     command: -p ${POSTGRES_PORT}
+
   db_test:
     image: postgres:17
     container_name: dionysus-test-db
@@ -56,6 +59,64 @@ services:
     volumes:
       - postgres_test_data:/var/lib/postgresql/data/
     command: -p 5433
+
+  redis:
+    image: redis:7
+    container_name: dionysus-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  celery-worker:
+    container_name: dionysus-celery-worker
+    build:
+      context: .
+      dockerfile: ./environments/dev/Dockerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+    command: celery -A config worker -l INFO
+
+  celery-beat:
+    container_name: dionysus-celery-beat
+    build:
+      context: .
+      dockerfile: ./environments/dev/Dockerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - celery-worker
+    command: celery -A config beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+  flower:
+    container_name: dionysus-flower
+    build:
+      context: .
+      dockerfile: ./environments/dev/Dockerfile
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+      - celery-worker
+    command: celery -A config flower --port=5555
+
 volumes:
-    postgres_data:
-    postgres_test_data:
+  postgres_data:
+  postgres_test_data:
