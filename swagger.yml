@@ -1425,10 +1425,23 @@ components:
           maxLength: 255
         category:
           $ref: '#/components/schemas/TagCategory'
+        popularity:
+          type: number
+          format: double
+          readOnly: true
+        memes_count:
+          type: integer
+          readOnly: true
+        bookmarkings_count:
+          type: integer
+          readOnly: true
       required:
+      - bookmarkings_count
       - category
       - id
+      - memes_count
       - name
+      - popularity
     TagCategory:
       type: object
       properties:
