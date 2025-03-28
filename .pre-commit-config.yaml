@@ -15,6 +15,7 @@ repos:
           - --max-line-length=120
           - --show-source
           - --statistics
+          - --ignore=E203
 
   - repo: https://github.com/pre-commit/mirrors-isort
     rev: v5.9.3
