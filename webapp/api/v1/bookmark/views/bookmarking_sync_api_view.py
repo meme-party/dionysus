@@ -1,6 +1,6 @@
 from bookmark.models import Bookmark, Bookmarking
 from django.db.models.signals import post_save
-from drf_spectacular.utils import OpenApiExample, OpenApiParameter, extend_schema
+from drf_spectacular.utils import OpenApiExample, extend_schema
 from meme.models import Meme
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 class BookmarkingSyncAPIView(APIView):
     permission_classes = [
         IsAuthenticated
-    ]  # TODO: 다른 유저의 bookmark는 수정할 수 없도록 수정
+    ]
 
     @extend_schema(
         summary="bulk sync bookmarkings",
