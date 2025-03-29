@@ -100,7 +100,11 @@ def get_logging_config(base_dir, debug=False, environment="dev"):
                     # sqlparse가 없으면 기본 SQL 출력
                     formatted_sql = record.sql
 
-                params = str(record.params) if record.params else "None"
+                params = (
+                    str(record.params)
+                    if hasattr(record, "params") and record.params
+                    else "None"
+                )
 
                 # 최종 포맷 구성 (SQL 쿼리를 별도 라인에 가독성 있게 표시)
                 message = f"{message}\n\n{formatted_sql}\n\nParams: {params}\n"
