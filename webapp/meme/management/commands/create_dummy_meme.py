@@ -21,6 +21,12 @@ class Command(BaseCommand):
             help="Total number of memes to create",
         )
         parser.add_argument(
+            "--published",
+            action="store_true",
+            default=False,
+            help="Create memes with published_at set to now",
+        )
+        parser.add_argument(
             "--image",
             type=int,
             default=None,
@@ -37,6 +43,7 @@ class Command(BaseCommand):
         total_memes = options.get("number")
         image_memes_count = options.get("image")
         text_memes_count = options.get("text")
+        published = options.get("published")
 
         if image_memes_count is not None or text_memes_count is not None:
             image_memes_count = image_memes_count or 0
@@ -50,31 +57,46 @@ class Command(BaseCommand):
 
         # Create the specified number of image memes
         self.stdout.write(f"Creating {image_memes_count} image memes...")
+
+        IMG_URLS = [
+            "https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/eHO2/image/eCEWfW0-lvcF_58Mk5QMYHWF7xo.heic",
+            "https://media.istockphoto.com/id/865449012/ko/%EC%82%AC%EC%A7%84/%EA%B0%80-%EC%B6%94%EC%83%81%ED%99%94%EC%9E%85%EB%8B%88%EB%8B%A4-%EC%84%B8%EB%A1%9C%EB%A1%9C-%EA%B8%B4-%EB%B0%B0%EB%84%88%EC%9E%85%EB%8B%88%EB%8B%A4.jpg?s=1024x1024&w=is&k=20&c=nPIn1-cOc44tuRNaPUr3twdIR0sq_DUrFV7n6cUFFFo=",
+            "https://academy.ilwoo.org/data/file/reference/3531300541_J1gHPmC6_479f762b4825515abc781b3a616929d8949ea2c5.jpg",
+        ]
+
         for i in range(image_memes_count):
             # Create a thumbnail for the image meme
             thumbnail = Thumbnail.objects.create(
-                name=f"Dummy Thumbnail {i}",
-                web_url="https://www.notion.so/image/attachment%3A84fd4666-fe81-4a5e-b3d3-93fdf1862654%3Aimage.png?table=block&id=1c245dc0-ef45-80cb-a963-d10964f31ec7&spaceId=9670d216-af32-4346-b6e8-3286d08ab53c&width=2000&userId=ddedc31a-d3a4-4262-a9fb-9d1fb5daf959&cache=v2",
+                name=f"Dummy Thumbnail {lorem.sentence()[:10]}",
+                web_url=random.choice(IMG_URLS),
             )
 
             # Create the image meme
-            meme = ImageMeme.objects.create(
-                title=f"Dummy Image Meme {i}",
+            ImageMeme.objects.create(
+                title=f"Dummy Image Meme {lorem.sentence()[:10]}",
                 description=lorem.paragraph()[:100],
                 creator=User.objects.first(),
                 thumbnail=thumbnail,
-                published_at=timezone.now() if random.choice([True, False]) else None,
+                published_at=(
+                    timezone.now()
+                    if published or random.choice([True, False])
+                    else None
+                ),
             )
 
         # Create the specified number of text memes
         self.stdout.write(f"Creating {text_memes_count} text memes...")
         for i in range(text_memes_count):
             # Create the text meme
-            meme = TextMeme.objects.create(
-                title=f"Dummy Text Meme {i}",
+            TextMeme.objects.create(
+                title=f"Dummy Text Meme {lorem.sentence()[:10]}",
                 description=lorem.paragraph()[:100],
                 creator=User.objects.first(),
-                published_at=timezone.now() if random.choice([True, False]) else None,
+                published_at=(
+                    timezone.now()
+                    if published or random.choice([True, False])
+                    else None
+                ),
             )
 
         created_memes = image_memes_count + text_memes_count
