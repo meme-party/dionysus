@@ -805,25 +805,6 @@ paths:
         description: A search term.
         schema:
           type: string
-      - in: query
-        name: tags__category__name
-        schema:
-          type: string
-      - in: query
-        name: type
-        schema:
-          type: string
-          title: Meme type
-          enum:
-          - Audio
-          - Image
-          - Text
-          - Video
-        description: |-
-          * `Text` - Text
-          * `Image` - Image
-          * `Video` - Video
-          * `Audio` - Audio
       tags:
       - api
       security:
@@ -877,8 +858,7 @@ paths:
       - in: path
         name: id
         schema:
-          type: integer
-        description: A unique integer value identifying this meme.
+          type: string
         required: true
       tags:
       - api
@@ -1193,6 +1173,9 @@ components:
           items:
             $ref: '#/components/schemas/Tag'
           readOnly: true
+        is_bookmarked:
+          type: string
+          readOnly: true
         created_at:
           type: string
           format: date-time
@@ -1206,6 +1189,7 @@ components:
       - created_at
       - description
       - id
+      - is_bookmarked
       - tags
       - thumbnail
       - title
