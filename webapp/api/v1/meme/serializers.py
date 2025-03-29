@@ -36,11 +36,18 @@ class MemeSerializer(serializers.ModelSerializer):
         required=False,
         allow_null=True,
     )
+    is_bookmarked = serializers.SerializerMethodField()
 
     tags = TagSerializer(many=True, read_only=True)
     thumbnail = ThumbnailSerializer(read_only=True)
     audio = AudioSerializer(read_only=True)
     video = VideoSerializer(read_only=True)
+
+    def get_is_bookmarked(self, obj):
+        user = self.context.get("request").user
+        if user.is_authenticated:
+            return hasattr(obj, "user_bookmarkings") and len(obj.user_bookmarkings) > 0
+        return False
 
     class Meta:
         model = Meme
@@ -58,6 +65,7 @@ class MemeSerializer(serializers.ModelSerializer):
             "original_link",
             "tag_ids",
             "tags",
+            "is_bookmarked",
             "created_at",
             "updated_at",
         ]
@@ -65,6 +73,7 @@ class MemeSerializer(serializers.ModelSerializer):
             "id",
             "tags",
             "thumbnail",
+            "is_bookmarked",
             "created_at",
             "updated_at",
         ]

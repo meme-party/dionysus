@@ -1,5 +1,6 @@
 from api.v1.meme.serializers import MemeSerializer
-from django.db.models import ExpressionWrapper, F, FloatField
+from bookmark.models import Bookmarking
+from django.db.models import ExpressionWrapper, F, FloatField, Prefetch
 from django.db.models.functions import Extract, Now
 from meme.models import Meme
 from meme.services.increase_meme_view_count_service import IncreaseMemeViewCountService
@@ -26,6 +27,13 @@ class MemeViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return (
             Meme.objects.prefetch_related("tags", "tags__category", "meme_counter")
+            .prefetch_related(
+                Prefetch(
+                    "bookmarkings",
+                    queryset=Bookmarking.objects.filter(user=self.request.user),
+                    to_attr="user_bookmarkings",
+                )
+            )
             .published()
             .annotate(
                 popularity=ExpressionWrapper(
