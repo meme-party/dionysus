@@ -123,7 +123,7 @@ def get_logging_config(base_dir, debug=False, environment="dev"):
         "simple": {"format": "%(levelname)s [%(asctime)s] %(name)s: %(message)s"},
         "sql": {
             "()": SQLFormatter,
-            "format": "\n%(levelname)s [%(asctime)s] [%(correlation_id)s] %(duration).3f ms %(name)s\n",
+            "format": "\n%(levelname)s [%(asctime)s] [%(correlation_id)s] %(name)s\n",
         },
     }
 
