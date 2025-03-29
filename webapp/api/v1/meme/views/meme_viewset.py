@@ -30,7 +30,13 @@ class MemeViewSet(viewsets.ReadOnlyModelViewSet):
             .prefetch_related(
                 Prefetch(
                     "bookmarkings",
-                    queryset=Bookmarking.objects.filter(user=self.request.user),
+                    queryset=Bookmarking.objects.filter(
+                        user=(
+                            self.request.user
+                            if self.request.user.is_authenticated
+                            else None
+                        )
+                    ),
                     to_attr="user_bookmarkings",
                 )
             )
