@@ -418,6 +418,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserDetail'
           description: ''
+  /api/v1/accounts/user/delete/:
+    delete:
+      operationId: delete_user_account
+      description: 사용자 계정 및 연결된 소셜 계정을 삭제합니다.
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '204':
+          description: 사용자 계정이 성공적으로 삭제되었습니다.
+        '500':
+          description: 삭제 중 오류가 발생했습니다.
   /api/v1/bookmarkings/:
     post:
       operationId: bookmarking_sync
