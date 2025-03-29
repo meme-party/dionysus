@@ -820,6 +820,25 @@ paths:
         description: A search term.
         schema:
           type: string
+      - in: query
+        name: tags__category__name
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+          title: Meme type
+          enum:
+          - Audio
+          - Image
+          - Text
+          - Video
+        description: |-
+          * `Text` - Text
+          * `Image` - Image
+          * `Video` - Video
+          * `Audio` - Audio
       tags:
       - api
       security:
@@ -873,7 +892,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this meme.
         required: true
       tags:
       - api
