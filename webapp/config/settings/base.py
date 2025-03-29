@@ -10,6 +10,8 @@ import environ
 import sentry_sdk
 from django.templatetags.static import static
 
+from .logging_config import get_logging_config
+
 # Default Environment Variables
 
 PROJECT_DIR = environ.Path(__file__) - 4
@@ -240,31 +242,9 @@ SIMPLE_JWT = {
 
 # ========== Logging settings ==========
 
+LOGGING = get_logging_config(BASE_DIR, debug=DEBUG, environment="base")
 NPLUSONE_LOGGER = logging.getLogger("nplusone")
 NPLUSONE_LOG_LEVEL = logging.WARN
-
-LOGGING = {
-    "version": 1,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "medium",
-            "filters": ["correlation_id"],
-        },
-    },
-    "filters": {"correlation_id": {"()": "django_guid.log_filters.CorrelationId"}},
-    "formatters": {
-        "medium": {
-            "format": "%(levelname)s %(asctime)s [%(correlation_id)s] %(name)s %(message)s"
-        }
-    },
-    "loggers": {
-        "nplusone": {
-            "handlers": ["console"],
-            "level": "WARN",
-        },
-    },
-}
 
 # ========== END Logging settings ==========
 
@@ -332,6 +312,7 @@ BASE_URL = "http://localhost:8000/"
 KAKAO_CALLBACK_URI = BASE_URL + "api/v1/accounts/kakao/login/callback/"
 
 KAKAO_REST_API_KEY = env("KAKAO_REST_API_KEY", default="")
+KAKAO_ADMIN_KEY = env("KAKAO_ADMIN_KEY", default="")
 
 
 # ========== Sentry settings ==========
