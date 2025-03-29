@@ -112,6 +112,7 @@ DJANGO_MIDDLEWARES = [
 
 PACKAGE_MIDDLEWARES = [
     "allauth.account.middleware.AccountMiddleware",
+    "config.middleware.CamelCaseMiddleware",
     "drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware",
 ]
 
@@ -186,10 +187,23 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_RENDERER_CLASSES": (
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+        "rest_framework.renderers.JSONRenderer",
+    ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
+    "DEFAULT_PARSER_CLASSES": (
+        "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+    ),
+    "JSON_UNDERSCOREIZE": {
+        "no_underscore_before_number": True,
+    },
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
