@@ -35,3 +35,9 @@ webapp/media/*
 
 # OS files
 .DS_Store
+
+.coverage
+
+# Log Files
+*.log
+*.log.*

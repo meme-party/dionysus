@@ -38,11 +38,18 @@ nplusone = "^1.0.0"
 django-silk = "^5.3.2"
 django-extensions = "^3.2.3"
 django-postgres-extra = "^2.0.8"
-factory-boy = "^3.3.3"
-faker = "^35.2.0"
 uvicorn = "^0.34.0"
 sentry-sdk = {extras = ["django"], version = "^2.23.1"}
 django-cors-headers = "^4.7.0"
+celery = "^5.4.0"
+django-celery-beat = "^2.6.0"
+django-celery-results = "^2.5.1"
+redis = "^5.0.4"
+flower = "^2.0.1"
+lorem = "^0.1.1"
+colorlog = "^6.9.0"
+sqlparse = "^0.5.3"
+djangorestframework-camel-case = "^1.4.2"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^4.0.1"
@@ -51,6 +58,12 @@ flake8 = "^7.1.1"
 isort = "^5.9.3"
 mypy = "^1.8.0"
 autoflake = "^2.2.0"
+coverage = "^7.7.1"
+pytest = "^8.3.5"
+pytest-django = "^4.10.0"
+pytest-cov = "^6.0.0"
+factory-boy = "^3.3.3"
+faker = "^35.2.0"
 
 [build-system]
 requires = ["poetry-core"]

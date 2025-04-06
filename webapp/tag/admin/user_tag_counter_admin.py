@@ -1,10 +1,10 @@
 from django.contrib import admin
+from tag.models import TagUserCounter
 from unfold.admin import ModelAdmin
-from user.models import UserTagCounter
 
 
-@admin.register(UserTagCounter)
-class UserTagCounterAdmin(ModelAdmin):
+@admin.register(TagUserCounter)
+class TagUserCounterAdmin(ModelAdmin):
     list_display = (
         "user",
         "tag",

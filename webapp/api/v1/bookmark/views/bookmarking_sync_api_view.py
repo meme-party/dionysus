@@ -1,18 +1,17 @@
 from bookmark.models import Bookmark, Bookmarking
 from django.db.models.signals import post_save
-from drf_spectacular.utils import OpenApiExample, OpenApiParameter, extend_schema
+from drf_spectacular.utils import OpenApiExample, extend_schema
 from meme.models import Meme
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from tag.tasks.tag_counter_tasks import update_counters_for_bookmarking
 
 
 class BookmarkingSyncAPIView(APIView):
-    permission_classes = [
-        IsAuthenticated
-    ]  # TODO: 다른 유저의 bookmark는 수정할 수 없도록 수정
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         summary="bulk sync bookmarkings",
@@ -111,10 +110,18 @@ class BookmarkingSyncAPIView(APIView):
             new_objects.append(Bookmarking(meme=meme, bookmark_id=bk_id, user=user))
 
         if new_objects:
-            Bookmarking.objects.bulk_create(new_objects)
+            created_objects = Bookmarking.objects.bulk_create(new_objects)
 
-            for obj in new_objects:
+            bookmark_ids = [obj.bookmark_id for obj in created_objects]
+            refreshed_objects = Bookmarking.objects.filter(
+                bookmark_id__in=bookmark_ids, meme=meme, user=user
+            ).select_related("bookmark", "meme")
+
+            for obj in refreshed_objects:
                 post_save.send(sender=Bookmarking, instance=obj, created=True)
+
+        if to_remove:
+            update_counters_for_bookmarking.delay(user.id, meme.id)
 
         return Response(
             {"detail": "Bookmarkings synced successfully."}, status=status.HTTP_200_OK

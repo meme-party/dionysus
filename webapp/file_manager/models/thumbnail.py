@@ -31,6 +31,7 @@ class Thumbnail(BaseModelWithSoftDelete):
         help_text="웹에서 접근할 수 있는 URL, 파일이 없는 경우 사용됩니다.",
         null=True,
         blank=True,
+        max_length=500,
     )
 
     @property

@@ -24,6 +24,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-alpha-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-alpha-
+
       - name: Build and Push Docker Image
         run: |
           chmod +x ./environments/alpha/build.sh
@@ -31,3 +39,6 @@ jobs:
         env:
           DOCKER_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}:alpha
           PORT: 8000
+          DOCKER_BUILDKIT: 1
+          BUILDKIT_PROGRESS: plain
+          CACHE_FROM: /tmp/.buildx-cache

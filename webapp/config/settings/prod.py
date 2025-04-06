@@ -28,3 +28,8 @@ MEDIA_URL = "media/"
 
 BASE_URL = "https://api.memez.party/"
 KAKAO_CALLBACK_URI = BASE_URL + "api/v1/accounts/kakao/login/callback/"
+# ========== Logging settings ==========
+
+LOGGING = get_logging_config(BASE_DIR, debug=DEBUG, environment="prod")
+
+# ========== END Logging settings ==========

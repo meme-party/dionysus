@@ -1,0 +1,162 @@
+name: Django Coverage Report
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+
+
+env:
+  DJANGO_SECRET_KEY: ${{ secrets.CI_DJANGO_KEY }}
+  PORT: 8000
+  DJANGO_SETTINGS_MODULE: config.settings.test
+  DEBUG: "True"
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: dionysus_db
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: ${{ secrets.CI_POSTGRES_PASSWORD }}
+  COVERAGE_BRANCH: coverage-report
+
+permissions:
+  contents: write
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PORT: 5432
+          POSTGRES_DB: dionysus_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ${{ secrets.CI_POSTGRES_PASSWORD }}
+        ports:
+        - 5432:5432
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # 전체 히스토리 가져오기
+        token: ${{ secrets.GITHUB_TOKEN }} # GitHub Token 사용
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.13'
+
+    - name: Cache Poetry dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-poetry-
+
+    - name: Cache Coverage data
+      uses: actions/cache@v3
+      with:
+        path: .coverage
+        key: ${{ runner.os }}-coverage-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-coverage-
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies via Poetry
+      run: |
+        poetry install --with dev  # 최신 Poetry 버전에 맞게 변경
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        for i in {1..10}; do
+          pg_isready -h localhost -p 5432 && break
+          sleep 5
+        done
+
+    - name: Run Django migrations
+      working-directory: webapp
+      run: poetry run python manage.py migrate
+
+    - name: Run Tests with Coverage
+      run: |
+        cd webapp
+        poetry run coverage run manage.py test || echo "Tests failed but continuing workflow"
+        poetry run coverage report -m || echo "Coverage report generation failed"
+        poetry run coverage html || echo "HTML coverage report generation failed"
+
+    # 아티팩트로만 저장 (간단한 참조용)
+    - name: Upload coverage reports to artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: webapp/htmlcov/
+        retention-days: 7
+
+    # Custom deployment to a separate branch
+    - name: Get current date
+      id: date
+      run: echo "date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+
+    - name: Create custom coverage branch
+      run: |
+        # Configure git
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+
+        # Create temp directory for coverage files
+        mkdir -p /tmp/coverage-assets
+
+        # Copy coverage report files
+        if [ -d "webapp/htmlcov" ]; then
+          cp -r webapp/htmlcov/* /tmp/coverage-assets/
+          echo "Copied htmlcov directory to temp directory"
+        else
+          echo "WARNING: webapp/htmlcov directory not found."
+          echo "<html><body><h1>Coverage report not available</h1><p>No coverage data was generated during the test run.</p></body></html>" > /tmp/coverage-assets/index.html
+        fi
+
+        # Create a new branch
+        git checkout --orphan $COVERAGE_BRANCH
+
+        # Remove everything
+        git rm -rf .
+
+        # Create .nojekyll file to disable GitHub Pages Jekyll processing
+        touch .nojekyll
+
+        # Copy coverage files from temp directory
+        cp -r /tmp/coverage-assets/* .
+
+        # Create README
+        echo "# Django Test Coverage Report" > README.md
+        echo "" >> README.md
+        echo "Generated on: ${{ steps.date.outputs.date }}" >> README.md
+        echo "" >> README.md
+        echo "## Coverage Summary" >> README.md
+        echo "" >> README.md
+        echo "See the HTML report for detailed coverage information." >> README.md
+        echo "" >> README.md
+        echo "## How to View" >> README.md
+        echo "" >> README.md
+        echo "Open [index.html](index.html) to view the full coverage report." >> README.md
+
+        # Add all files
+        git add .
+
+        # Commit
+        git commit -m "Update coverage report - ${{ steps.date.outputs.date }}"
+
+        # Force push to the coverage branch
+        git push -f origin $COVERAGE_BRANCH

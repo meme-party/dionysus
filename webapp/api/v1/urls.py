@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-app_name = "api.v1"
+app_name = "v1"
 
 urlpatterns = [
     path("", include("api.v1.meme.urls")),

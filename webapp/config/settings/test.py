@@ -20,3 +20,9 @@ STATIC_URL = "/static/"
 # Media files
 MEDIA_ROOT = f"{BASE_DIR}/media"
 MEDIA_URL = "media/"
+
+# ========== Logging settings ==========
+
+LOGGING = get_logging_config(BASE_DIR, debug=DEBUG, environment="test")
+
+# ========== END Logging settings ==========

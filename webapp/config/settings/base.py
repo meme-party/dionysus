@@ -10,6 +10,8 @@ import environ
 import sentry_sdk
 from django.templatetags.static import static
 
+from .logging_config import get_logging_config
+
 # Default Environment Variables
 
 PROJECT_DIR = environ.Path(__file__) - 4
@@ -74,6 +76,8 @@ PACKAGE_APPS = [
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.kakao",
     "allauth.socialaccount.providers.github",
+    "django_celery_beat",
+    "django_celery_results",
 ]
 
 CUSTOM_APPS: List[str] = [
@@ -108,6 +112,7 @@ DJANGO_MIDDLEWARES = [
 
 PACKAGE_MIDDLEWARES = [
     "allauth.account.middleware.AccountMiddleware",
+    "config.middleware.CamelCaseMiddleware",
     "drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware",
 ]
 
@@ -182,10 +187,23 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_RENDERER_CLASSES": (
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+        "rest_framework.renderers.JSONRenderer",
+    ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
+    "DEFAULT_PARSER_CLASSES": (
+        "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+    ),
+    "JSON_UNDERSCOREIZE": {
+        "no_underscore_before_number": True,
+    },
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
@@ -200,6 +218,7 @@ REST_AUTH = {
     "JWT_AUTH_HTTPONLY": False,
     "JWT_AUTH_COOKIE": "dionysus-app-auth",
     "JWT_AUTH_REFRESH_COOKIE": "dionysus-app-refresh",
+    "SIGNUP_FIELDS": {"email": {"required": True}, "username": {"required": False}},
 }
 
 SPECTACULAR_SETTINGS = {
@@ -223,7 +242,8 @@ REST_USE_JWT = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_LOGIN_METHODS = {"email"}
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
@@ -236,31 +256,9 @@ SIMPLE_JWT = {
 
 # ========== Logging settings ==========
 
+LOGGING = get_logging_config(BASE_DIR, debug=DEBUG, environment="base")
 NPLUSONE_LOGGER = logging.getLogger("nplusone")
 NPLUSONE_LOG_LEVEL = logging.WARN
-
-LOGGING = {
-    "version": 1,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "medium",
-            "filters": ["correlation_id"],
-        },
-    },
-    "filters": {"correlation_id": {"()": "django_guid.log_filters.CorrelationId"}},
-    "formatters": {
-        "medium": {
-            "format": "%(levelname)s %(asctime)s [%(correlation_id)s] %(name)s %(message)s"
-        }
-    },
-    "loggers": {
-        "nplusone": {
-            "handlers": ["console"],
-            "level": "WARN",
-        },
-    },
-}
 
 # ========== END Logging settings ==========
 
@@ -328,6 +326,7 @@ BASE_URL = "http://localhost:8000/"
 KAKAO_CALLBACK_URI = BASE_URL + "api/v1/accounts/kakao/login/callback/"
 
 KAKAO_REST_API_KEY = env("KAKAO_REST_API_KEY", default="")
+KAKAO_ADMIN_KEY = env("KAKAO_ADMIN_KEY", default="")
 
 
 # ========== Sentry settings ==========
@@ -342,3 +341,23 @@ if not DEBUG:
     )
 
 # ========== END Sentry settings ==========
+
+# ========== Celery settings ==========
+
+REDIS_HOST = env("REDIS_HOST", default="redis")
+REDIS_PORT = env("REDIS_PORT", default="6379")
+CELERY_BROKER_URL = env(
+    "CELERY_BROKER_URL", default=f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+)
+CELERY_RESULT_BACKEND = env(
+    "CELERY_RESULT_BACKEND", default=f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+)
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+
+# Celery Beat 설정
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+# ========== END Celery settings ==========

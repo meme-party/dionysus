@@ -7,7 +7,7 @@ from api.v1.bookmark.views import (
 from django.urls import include, path
 from rest_framework_nested.routers import DefaultRouter, NestedSimpleRouter
 
-app_name = "api.v1.bookmark"
+app_name = "bookmark"
 
 router = DefaultRouter()
 router.register(r"bookmarks", BookmarkViewSet, basename="bookmark")

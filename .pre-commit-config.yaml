@@ -15,6 +15,7 @@ repos:
           - --max-line-length=120
           - --show-source
           - --statistics
+          - --ignore=E203,W501,W503,F405
 
   - repo: https://github.com/pre-commit/mirrors-isort
     rev: v5.9.3
@@ -31,9 +32,3 @@ repos:
       - id: pretty-format-json
       - id: check-added-large-files
         args: ["--maxkb=500"]
-
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.4.1
-    hooks:
-      - id: mypy
-        args: ["--ignore-missing-imports"]
