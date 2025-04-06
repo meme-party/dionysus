@@ -7,6 +7,7 @@ from unfold.admin import ModelAdmin, TabularInline
 class MemeTaggingInline(TabularInline):
     model = MemeTagging
     extra = 1
+    max_num = 10
     fields = ["tag"]
 
 
