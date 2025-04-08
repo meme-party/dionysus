@@ -313,18 +313,20 @@ SILKY_AUTHORISATION = True
 
 # ========== END Silk settings ==========
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-
-# CORS_ORIGIN_WHITELIST = [
-#     "http://localhost:3000",
-#     "http://localhost:8000",
-#     "https://alpha.memez.party",
-#     "https://alpha-api.memez.party",
-#     "https://api.memez.party",
-#     "https://memez.party",
-#     "https://meme-party-front-deploy.vercel.app",
-# ]
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://alpha.memez.party",
+    "https://alpha.memez.party",
+    "http://alpha-api.memez.party",
+    "https://alpha-api.memez.party",
+    "http://api.memez.party",
+    "https://api.memez.party",
+    "http://memez.party",
+    "https://memez.party",
+    "http://meme-party-front-deploy.vercel.app",
+    "https://meme-party-front-deploy.vercel.app",
+]
 
 BASE_URL = "http://localhost:8000/"
 KAKAO_CALLBACK_URI = BASE_URL + "api/v1/accounts/kakao/login/callback/"
