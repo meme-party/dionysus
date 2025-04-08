@@ -320,6 +320,7 @@ CORS_ORIGIN_WHITELIST = [
     "https://alpha-api.memez.party",
     "https://api.memez.party",
     "https://memez.party",
+    "https://meme-party-front-deploy.vercel.app",
 ]
 
 BASE_URL = "http://localhost:8000/"
