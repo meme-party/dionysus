@@ -1,7 +1,7 @@
 from api.v1.meme.serializers import MemeSerializer
 from bookmark.models import Bookmarking
-from django.db.models import ExpressionWrapper, F, FloatField, Prefetch
-from django.db.models.functions import Extract, Now
+from django.db.models import ExpressionWrapper, F, FloatField, Prefetch, Value
+from django.db.models.functions import Exp, Extract, Now
 from meme.models import Meme
 from meme.services.increase_meme_view_count_service import IncreaseMemeViewCountService
 from rest_framework import viewsets
@@ -13,6 +13,8 @@ POPULARITY_WEIGHTS = {
     "views_count": 1,
     "viewers_count": 2,
 }
+
+EXPO_SCALE = 86400.0
 
 
 class MemeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -42,7 +44,7 @@ class MemeViewSet(viewsets.ReadOnlyModelViewSet):
             )
             .published()
             .annotate(
-                popularity=ExpressionWrapper(
+                popularity_score=ExpressionWrapper(
                     -(
                         F("meme_counter__bookmarkings_count")
                         * POPULARITY_WEIGHTS["bookmarkings_count"]
@@ -52,11 +54,18 @@ class MemeViewSet(viewsets.ReadOnlyModelViewSet):
                         * POPULARITY_WEIGHTS["views_count"]
                         + F("meme_counter__viewers_count")
                         * POPULARITY_WEIGHTS["viewers_count"]
-                    )
-                    / Extract(Now() - F("updated_at"), "epoch")
-                    + 1,
+                        + F("id") * 0.1
+                    ),
                     output_field=FloatField(),
-                )
+                ),
+                popularity_decay=ExpressionWrapper(
+                    Exp(-Extract(Now() - F("updated_at"), "epoch") / Value(EXPO_SCALE)),
+                    output_field=FloatField(),
+                ),
+                popularity=ExpressionWrapper(
+                    F("popularity_score") / F("popularity_decay"),
+                    output_field=FloatField(),
+                ),
             )
         )
 
