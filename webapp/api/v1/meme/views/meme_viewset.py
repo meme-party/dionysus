@@ -58,7 +58,7 @@ class MemeViewSet(viewsets.ReadOnlyModelViewSet):
                     output_field=FloatField(),
                 )
             )
-        ).order_by("id")
+        )
 
     def retrieve(self, request, *args, **kwargs):
         meme = self.get_object()
