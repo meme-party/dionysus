@@ -2,6 +2,10 @@ from .base import *  # noqa: F401, F403
 
 ALLOWED_HOSTS = ["alpha-api.memez.party", "memez.party"]
 CSRF_TRUSTED_ORIGINS = ["https://alpha-api.memez.party", "https://memez.party"]
+CORS_ALLOWED_ORIGINS = [
+    "https://alpha-api.memez.party",
+    "https://alpha.memez.party",
+]
 
 DEBUG = False
 
