@@ -1193,10 +1193,15 @@ components:
           allOf:
           - $ref: '#/components/schemas/Video'
           readOnly: true
-        original_link:
+        original_title:
           type: string
           nullable: true
           maxLength: 100
+        original_link:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
         tag_ids:
           type: array
           items:
