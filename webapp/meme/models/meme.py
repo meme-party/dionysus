@@ -69,8 +69,14 @@ class Meme(BaseModelWithSoftDelete):
         verbose_name="meme description", blank=False, null=False
     )
 
-    original_link = models.TextField(
+    original_link = models.URLField(
         verbose_name="original link",
+        blank=True,
+        null=True,
+    )
+
+    original_title = models.TextField(
+        verbose_name="original title",
         max_length=100,
         blank=True,
         null=True,

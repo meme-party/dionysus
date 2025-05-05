@@ -62,6 +62,7 @@ class MemeSerializer(serializers.ModelSerializer):
             "audio",
             "video_id",
             "video",
+            "original_title",
             "original_link",
             "tag_ids",
             "tags",

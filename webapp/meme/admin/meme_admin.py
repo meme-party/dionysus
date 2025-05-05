@@ -63,6 +63,7 @@ class MemeAdmin(ModelAdmin):
         "audio",
         "video",
         "description",
+        "original_title",
         "original_link",
         "published_at",
         "archived_at",
