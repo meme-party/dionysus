@@ -28,7 +28,9 @@ class MemeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return (
-            Meme.objects.prefetch_related("tags", "tags__category", "meme_counter")
+            Meme.objects.prefetch_related(
+                "tags", "tags__category", "meme_counter", "thumbnail"
+            )
             .prefetch_related(
                 Prefetch(
                     "bookmarkings",
