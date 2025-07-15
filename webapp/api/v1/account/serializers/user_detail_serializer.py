@@ -13,4 +13,7 @@ class UserDetailSerializer(UserDetailsSerializer):
     )
 
     class Meta(UserDetailsSerializer.Meta):
-        fields = UserDetailsSerializer.Meta.fields + ("social_account",)
+        fields = UserDetailsSerializer.Meta.fields + (
+            "username",
+            "social_account",
+        )
