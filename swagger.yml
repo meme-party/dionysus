@@ -1401,6 +1401,10 @@ components:
           type: string
           format: email
           readOnly: true
+        username:
+          type: string
+          title: 사용자 이름
+          maxLength: 30
         social_account:
           type: array
           items:
@@ -1530,6 +1534,10 @@ components:
           type: string
           format: email
           readOnly: true
+        username:
+          type: string
+          title: 사용자 이름
+          maxLength: 30
         social_account:
           type: array
           items:
