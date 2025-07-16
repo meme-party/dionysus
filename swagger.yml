@@ -853,6 +853,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaginatedMemeList'
           description: ''
+  /api/v1/memes/{meme_id}/bookmark_ids:
+    get:
+      operationId: api_v1_memes_bookmark_ids_retrieve
+      description: Retrieve a list of bookmark IDs for a specific meme.
+      parameters:
+      - in: path
+        name: meme_id
+        schema:
+          type: integer
+        description: ID of the meme for which bookmark IDs are fetched
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bookmark_ids:
+                    type: array
+                    items:
+                      type: integer
+                    description: List of bookmark IDs for the specified meme.
+          description: ''
   /api/v1/memes/{meme_id}/related:
     get:
       operationId: api_v1_memes_related_list
