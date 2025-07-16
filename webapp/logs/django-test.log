@@ -1,0 +1,94 @@
+DEBUG [2025-07-16 17:02:23,404] [None] celery.utils.functional: 
+def accumulate(self, *args, **kwargs):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,407] [None] celery.utils.functional: 
+def chain(*args, **kwargs):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,408] [None] celery.utils.functional: 
+def group(self, tasks, result, group_id, partial_args, add_to_parent=0):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,409] [None] celery.utils.functional: 
+def backend_cleanup():
+    return 1
+
+DEBUG [2025-07-16 17:02:23,410] [None] celery.utils.functional: 
+def chord(self, header, body, partial_args=0, interval=1, countdown=2, max_retries=3, eager=4, **kwargs):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,411] [None] celery.utils.functional: 
+def unlock_chord(self, group_id, callback, interval=0, max_retries=1, result=2, Result=3, GroupResult=4, result_from_tuple=5, **kwargs):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,411] [None] celery.utils.functional: 
+def update_all_tag_counters():
+    return 1
+
+DEBUG [2025-07-16 17:02:23,412] [None] celery.utils.functional: 
+def update_tag_counter(tag_id):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,413] [None] celery.utils.functional: 
+def update_counters_for_tag(tag_id):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,414] [None] celery.utils.functional: 
+def debug_task(self):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,414] [None] celery.utils.functional: 
+def xmap(task, it):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,415] [None] celery.utils.functional: 
+def update_counter_for_user_and_tag(user_id, tag_id):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,416] [None] celery.utils.functional: 
+def xstarmap(task, it):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,417] [None] celery.utils.functional: 
+def chunks(task, it, n):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,417] [None] celery.utils.functional: 
+def update_all_user_counters():
+    return 1
+
+DEBUG [2025-07-16 17:02:23,418] [None] celery.utils.functional: 
+def update_counters_for_bookmarking(user_id, meme_id):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,419] [None] celery.utils.functional: 
+def update_counters_for_user(user_id):
+    return 1
+
+DEBUG [2025-07-16 17:02:23,504] [None] faker.factory: Not in REPL -> leaving logger event level as is.
+DEBUG [2025-07-16 17:02:30,001] [None] django_guid: sync middleware called
+INFO [2025-07-16 17:02:30,001] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: 71461790ee4a4eed95111ede0dab3b3b
+DEBUG [2025-07-16 17:02:30,006] [71461790ee4a4eed95111ede0dab3b3b] silk.middleware: process_request
+DEBUG [2025-07-16 17:02:30,010] [71461790ee4a4eed95111ede0dab3b3b] silk.model_factory: Created new request model with pk c0fa4280-7c7d-4ad2-b153-4ac06742739e
+DEBUG [2025-07-16 17:02:30,079] [71461790ee4a4eed95111ede0dab3b3b] silk.middleware: Process response
+DEBUG [2025-07-16 17:02:30,080] [71461790ee4a4eed95111ede0dab3b3b] silk.model_factory: Creating response model for request model with pk c0fa4280-7c7d-4ad2-b153-4ac06742739e
+DEBUG [2025-07-16 17:02:30,144] [71461790ee4a4eed95111ede0dab3b3b] silk.middleware: Process response done.
+DEBUG [2025-07-16 17:02:30,145] [71461790ee4a4eed95111ede0dab3b3b] django_guid: Received signal `request_finished`, clearing guid
+DEBUG [2025-07-16 17:02:30,426] [None] django_guid: sync middleware called
+INFO [2025-07-16 17:02:30,426] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: 89d8705636f0476a970c580f454363ae
+DEBUG [2025-07-16 17:02:30,427] [89d8705636f0476a970c580f454363ae] silk.middleware: process_request
+DEBUG [2025-07-16 17:02:30,429] [89d8705636f0476a970c580f454363ae] silk.model_factory: Created new request model with pk e599165f-a248-40d0-b015-e0faf90027bf
+DEBUG [2025-07-16 17:02:30,490] [89d8705636f0476a970c580f454363ae] silk.middleware: Process response
+DEBUG [2025-07-16 17:02:30,490] [89d8705636f0476a970c580f454363ae] silk.model_factory: Creating response model for request model with pk e599165f-a248-40d0-b015-e0faf90027bf
+DEBUG [2025-07-16 17:02:30,547] [89d8705636f0476a970c580f454363ae] silk.middleware: Process response done.
+DEBUG [2025-07-16 17:02:30,548] [89d8705636f0476a970c580f454363ae] django_guid: Received signal `request_finished`, clearing guid
+DEBUG [2025-07-16 17:02:30,837] [None] django_guid: sync middleware called
+INFO [2025-07-16 17:02:30,838] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: 9b371f61eb874a61a89d09b81ad7f725
+DEBUG [2025-07-16 17:02:30,838] [9b371f61eb874a61a89d09b81ad7f725] silk.middleware: process_request
+DEBUG [2025-07-16 17:02:30,840] [9b371f61eb874a61a89d09b81ad7f725] silk.model_factory: Created new request model with pk b59b78ac-fac5-4641-81d0-41b46150ee02
+DEBUG [2025-07-16 17:02:30,842] [9b371f61eb874a61a89d09b81ad7f725] silk.middleware: Process response
+DEBUG [2025-07-16 17:02:30,842] [9b371f61eb874a61a89d09b81ad7f725] silk.model_factory: Creating response model for request model with pk b59b78ac-fac5-4641-81d0-41b46150ee02
+DEBUG [2025-07-16 17:02:30,848] [9b371f61eb874a61a89d09b81ad7f725] silk.middleware: Process response done.
+WARNING [2025-07-16 17:02:30,849] [9b371f61eb874a61a89d09b81ad7f725] django.request: Forbidden: /api/v1/accounts/user/delete/
+DEBUG [2025-07-16 17:02:30,849] [9b371f61eb874a61a89d09b81ad7f725] django_guid: Received signal `request_finished`, clearing guid
