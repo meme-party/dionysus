@@ -28,6 +28,7 @@ class RelatedMemeListAPIView(APIView):
             ),
         ],
         responses=MemeSerializer(many=True),
+        tags=["meme"],
         description="Retrieve a list of memes related to the given meme ID.",
     )
     def get(self, request, meme_id):

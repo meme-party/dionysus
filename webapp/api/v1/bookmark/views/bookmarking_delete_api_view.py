@@ -33,6 +33,7 @@ class BookmarkingDeleteAPIView(APIView):
                 "content": {"application/json": {"example": {"detail": "Not found."}}},
             },
         },
+        tags=["bookmarking"],
     )
     def delete(self, request, bookmarking_id, *args, **kwargs):
         user = request.user

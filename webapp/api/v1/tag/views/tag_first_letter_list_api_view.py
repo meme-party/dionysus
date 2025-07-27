@@ -10,6 +10,7 @@ class TagFirstLetterListAPIView(APIView):
 
     @extend_schema(
         responses={200: {"type": "array", "items": {"type": "string"}}},
+        tags=["tag"],
         description="Retrieve a list of distinct first letters from available tags.",
     )
     def get(self, request):

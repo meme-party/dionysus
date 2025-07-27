@@ -34,6 +34,7 @@ class TagListByFirstLetterAPIView(APIView):
             ),
         ],
         responses={200: TagSerializer(many=True)},
+        tags=["tag"],
         description="Retrieve tags grouped by their first letter, with a specified limit per letter.",
     )
     def get(self, request):
