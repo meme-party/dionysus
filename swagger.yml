@@ -439,7 +439,7 @@ paths:
       description: 단일 밈과 여러 북마크에 대해서 동시에 다룹니다.
       summary: bulk sync bookmarkings
       tags:
-      - api
+      - bookmarking
       requestBody:
         content:
           application/json:
@@ -524,7 +524,7 @@ paths:
         description: The ID of the Bookmarking to delete.
         required: true
       tags:
-      - api
+      - bookmarking
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -571,7 +571,7 @@ paths:
         schema:
           type: string
       tags:
-      - api
+      - bookmark
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -586,7 +586,7 @@ paths:
     post:
       operationId: api_v1_bookmarks_create
       tags:
-      - api
+      - bookmark
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -644,7 +644,7 @@ paths:
         schema:
           type: string
       tags:
-      - api
+      - bookmarking
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -672,7 +672,7 @@ paths:
         description: A unique integer value identifying this bookmarking.
         required: true
       tags:
-      - api
+      - bookmarking
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -695,7 +695,7 @@ paths:
         description: A unique integer value identifying this bookmark.
         required: true
       tags:
-      - api
+      - bookmark
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -717,7 +717,7 @@ paths:
         description: A unique integer value identifying this bookmark.
         required: true
       tags:
-      - api
+      - bookmark
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -751,7 +751,7 @@ paths:
         description: A unique integer value identifying this bookmark.
         required: true
       tags:
-      - api
+      - bookmark
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -784,7 +784,7 @@ paths:
         description: A unique integer value identifying this bookmark.
         required: true
       tags:
-      - api
+      - bookmark
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -840,7 +840,7 @@ paths:
           * `Video` - Video
           * `Audio` - Audio
       tags:
-      - api
+      - meme
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -865,7 +865,8 @@ paths:
         description: ID of the meme for which bookmark IDs are fetched
         required: true
       tags:
-      - api
+      - meme
+      - bookmark
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -900,7 +901,7 @@ paths:
         description: ID of the meme for which related memes are fetched
         required: true
       tags:
-      - api
+      - meme
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -915,6 +916,209 @@ paths:
                 items:
                   $ref: '#/components/schemas/Meme'
           description: ''
+  /api/v1/memes/{meme_pk}/memos/:
+    get:
+      operationId: api_v1_memes_memos_list
+      parameters:
+      - in: path
+        name: meme_pk
+        schema:
+          type: string
+        required: true
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - meme-memo
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMemoList'
+          description: ''
+    post:
+      operationId: api_v1_memes_memos_create
+      parameters:
+      - in: path
+        name: meme_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - meme-memo
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Memo'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Memo'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memo'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memo'
+          description: ''
+  /api/v1/memes/{meme_pk}/memos/{id}/:
+    get:
+      operationId: api_v1_memes_memos_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: meme_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - meme-memo
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memo'
+          description: ''
+    put:
+      operationId: api_v1_memes_memos_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: meme_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - meme-memo
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Memo'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Memo'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memo'
+        required: true
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memo'
+          description: ''
+    patch:
+      operationId: api_v1_memes_memos_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: meme_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - meme-memo
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMemo'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMemo'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMemo'
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memo'
+          description: ''
+    delete:
+      operationId: api_v1_memes_memos_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: meme_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - meme-memo
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/memes/{id}/:
     get:
       operationId: api_v1_memes_retrieve
@@ -926,7 +1130,7 @@ paths:
         description: A unique integer value identifying this meme.
         required: true
       tags:
-      - api
+      - meme
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -976,7 +1180,7 @@ paths:
         schema:
           type: string
       tags:
-      - api
+      - tag
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -1010,7 +1214,7 @@ paths:
           - updated_at
         description: Field to order tags by
       tags:
-      - api
+      - tag
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -1054,7 +1258,7 @@ paths:
         schema:
           type: string
       tags:
-      - api
+      - tag
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -1071,7 +1275,7 @@ paths:
       operationId: api_v1_tags_first_letters_retrieve
       description: Retrieve a list of distinct first letters from available tags.
       tags:
-      - api
+      - tag
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
@@ -1266,6 +1470,31 @@ components:
       - type
       - updated_at
       - video
+    Memo:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        meme:
+          type: integer
+        content:
+          type: string
+          title: Memo content
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - content
+      - created_at
+      - id
+      - meme
+      - updated_at
     PaginatedBookmarkList:
       type: object
       required:
@@ -1335,6 +1564,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Meme'
+    PaginatedMemoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Memo'
     PaginatedTagList:
       type: object
       required:
@@ -1411,6 +1663,25 @@ components:
         bookmarkings_count:
           type: integer
           readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedMemo:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        meme:
+          type: integer
+        content:
+          type: string
+          title: Memo content
         created_at:
           type: string
           format: date-time
