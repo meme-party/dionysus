@@ -56,6 +56,7 @@ class BookmarkingSyncAPIView(APIView):
                 "content": {"application/json": {"example": {"detail": "Not found."}}},
             },
         },
+        tags=["bookmarking"],
         examples=[
             OpenApiExample(
                 "Example",

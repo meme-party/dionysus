@@ -5,7 +5,9 @@ from rest_framework.permissions import IsAuthenticated
 from tag.models import Tag, TagUserCounter
 
 
-@extend_schema()
+@extend_schema(
+    tags=["tag"],
+)
 class FavoriteTagListAPIView(ListAPIView):
     serializer_class = TagSerializer
     permission_classes = [IsAuthenticated]

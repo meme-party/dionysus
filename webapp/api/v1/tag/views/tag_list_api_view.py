@@ -13,7 +13,9 @@ TAG_POPULARITY_WEIGHTS = {
 }
 
 
-@extend_schema()
+@extend_schema(
+    tags=["tag"],
+)
 class TagListAPIView(ListAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer

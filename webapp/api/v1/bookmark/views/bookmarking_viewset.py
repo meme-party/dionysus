@@ -1,10 +1,31 @@
 from api.v1.bookmark.serializers import BookmarkingSerializer
 from bookmark.models import Bookmark, Bookmarking
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
 
+@extend_schema_view(
+    list=extend_schema(
+        tags=["bookmarking"],
+    ),
+    retrieve=extend_schema(
+        tags=["bookmarking"],
+    ),
+    create=extend_schema(
+        tags=["bookmarking"],
+    ),
+    update=extend_schema(
+        tags=["bookmarking"],
+    ),
+    partial_update=extend_schema(
+        tags=["bookmarking"],
+    ),
+    destroy=extend_schema(
+        tags=["bookmarking"],
+    ),
+)
 class BookmarkingViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Bookmarking.objects.all()
     serializer_class = BookmarkingSerializer

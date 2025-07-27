@@ -2,6 +2,7 @@ from api.v1.meme.serializers import MemeSerializer
 from bookmark.models import Bookmarking
 from django.db.models import ExpressionWrapper, F, FloatField, Prefetch, Value
 from django.db.models.functions import Exp, Extract, Now
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from meme.models import Meme
 from meme.services.increase_meme_view_count_service import IncreaseMemeViewCountService
 from rest_framework import viewsets
@@ -17,6 +18,26 @@ POPULARITY_WEIGHTS = {
 EXPO_SCALE = 86400.0
 
 
+@extend_schema_view(
+    list=extend_schema(
+        tags=["meme"],
+    ),
+    retrieve=extend_schema(
+        tags=["meme"],
+    ),
+    create=extend_schema(
+        tags=["meme"],
+    ),
+    update=extend_schema(
+        tags=["meme"],
+    ),
+    partial_update=extend_schema(
+        tags=["meme"],
+    ),
+    destroy=extend_schema(
+        tags=["meme"],
+    ),
+)
 class MemeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = MemeSerializer
     permission_classes = [AllowAny]

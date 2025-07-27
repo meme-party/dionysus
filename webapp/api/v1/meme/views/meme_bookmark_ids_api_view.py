@@ -32,6 +32,7 @@ class MemeBookmarkIdsAPIView(APIView):
                 },
             },
         },
+        tags=["meme", "bookmark"],
         description="Retrieve a list of bookmark IDs for a specific meme.",
     )
     def get(self, request, meme_id):
