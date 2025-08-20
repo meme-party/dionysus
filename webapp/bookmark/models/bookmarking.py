@@ -1,5 +1,21 @@
-from config.models import BaseModel
+from config.models import BaseModel, BaseModelManager
 from django.db import models
+from django.db.models import QuerySet
+
+
+class BookmarkingQuerySet(QuerySet):
+    def with_bookmark(self):
+        return self.filter(bookmark_id__isnull=False)
+
+    def without_bookmark(self):
+        return self.filter(bookmark_id__isnull=True)
+
+
+class BookmarkingModelManager(BaseModelManager.from_queryset(BookmarkingQuerySet)):
+    use_for_related_fields = True
+
+    def get_queryset(self):
+        return super().get_queryset().all()
 
 
 class Bookmarking(BaseModel):
@@ -12,16 +28,20 @@ class Bookmarking(BaseModel):
         ]
         constraints = [
             models.UniqueConstraint(
-                fields=["meme", "bookmark"],
-                name="unique_meme_bookmark",
-            )
+                fields=["user", "meme", "bookmark"],
+                name="unique_user_meme_bookmark",
+            ),
         ]
+
+    objects = BookmarkingModelManager()
 
     bookmark = models.ForeignKey(
         "bookmark.Bookmark",
         verbose_name="bookmark",
         related_name="bookmarkings",
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
 
     meme = models.ForeignKey(
@@ -29,6 +49,8 @@ class Bookmarking(BaseModel):
         verbose_name="meme",
         related_name="bookmarkings",
         on_delete=models.CASCADE,
+        null=False,
+        blank=False,
     )
 
     user = models.ForeignKey(
@@ -42,5 +64,6 @@ class Bookmarking(BaseModel):
         return f"{self.bookmark} - {self.meme}"
 
     def save(self, *args, **kwargs):
-        self.user = self.bookmark.user
+        if self.bookmark is not None:
+            self.user = self.bookmark.user
         super().save(*args, **kwargs)
