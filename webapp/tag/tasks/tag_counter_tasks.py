@@ -113,6 +113,10 @@ def update_counters_for_bookmarking(user_id, meme_id):
         user = User.objects.get(id=user_id)
         meme = Meme.objects.get(id=meme_id)
 
+        # Bookmark 모델의 bookmarkings_count 업데이트
+        for bookmark in user.bookmarks.all():
+            bookmark.reset_bookmarkings_count()
+
         # 북마킹된 밈에 연결된 태그 목록 가져오기
         tag_ids = meme.meme_taggings.filter(deleted_at__isnull=True).values_list(
             "tag_id", flat=True
@@ -143,7 +147,8 @@ def update_counters_for_bookmarking(user_id, meme_id):
         return (
             f"북마킹 관련 카운터 업데이트 완료 - 사용자 ID: {user_id}, 밈 ID: {meme_id}, "
             f"업데이트된 사용자 태그 카운터: {total_user_counters}, "
-            f"업데이트된 태그: {total_tags_updated}, 총 업데이트된 사용자-태그 관계: {total_users_updated}"
+            f"업데이트된 태그: {total_tags_updated}, 총 업데이트된 사용자-태그 관계: {total_users_updated}, "
+            f"Bookmark 카운터 업데이트 완료"
         )
     except User.DoesNotExist:
         return f"사용자 ID {user_id}를 찾을 수 없음"

@@ -35,13 +35,16 @@ class TagUserCounter(BaseModel):
 
     @classmethod
     def reset_all_counters(cls, user):
-        tag_counts_qs = Tag.objects.filter(
-            meme__bookmarkings__bookmark__user=user
-        ).annotate(
-            bc=Count(
-                "meme__bookmarkings", filter=Q(meme__bookmarkings__bookmark__user=user)
+        # 북마크가 있는 경우와 없는 경우 모두 고려
+        tag_counts_qs = Tag.objects.filter(meme__bookmarkings__user=user).annotate(
+            bc=Count("meme__bookmarkings", filter=Q(meme__bookmarkings__user=user)),
+            bkc=Count(
+                "meme__bookmarkings__bookmark",
+                filter=Q(
+                    meme__bookmarkings__bookmark__isnull=False,
+                    meme__bookmarkings__user=user,
+                ),
             ),
-            bkc=Count("meme__bookmarkings__bookmark", distinct=True),
         )
 
         rows = []
@@ -67,15 +70,21 @@ class TagUserCounter(BaseModel):
         특정 태그에 대한 사용자의 카운터만 업데이트
         """
 
-        # 해당 태그에 대한 북마크/북마킹 카운트 계산
+        # 해당 태그에 대한 북마크/북마킹 카운트 계산 (북마크가 있는 경우와 없는 경우 모두 고려)
         tag_data = (
-            Tag.objects.filter(pk=tag.pk, meme__bookmarkings__bookmark__user=user)
+            Tag.objects.filter(pk=tag.pk, meme__bookmarkings__user=user)
             .annotate(
                 bc=Count(
                     "meme__bookmarkings",
-                    filter=Q(meme__bookmarkings__bookmark__user=user),
+                    filter=Q(meme__bookmarkings__user=user),
                 ),
-                bkc=Count("meme__bookmarkings__bookmark", distinct=True),
+                bkc=Count(
+                    "meme__bookmarkings__bookmark",
+                    filter=Q(
+                        meme__bookmarkings__bookmark__isnull=False,
+                        meme__bookmarkings__user=user,
+                    ),
+                ),
             )
             .first()
         )
