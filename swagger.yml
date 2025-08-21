@@ -465,10 +465,8 @@ paths:
               Example:
                 value:
                   meme_id: 10
-                  bookmark_ids:
-                  - 101
-                  - 102
-                  - 103
+                  bookmark_ids: []
+                  without_bookmark: true
                 summary: A valid request
       security:
       - cookieAuth: []
@@ -488,10 +486,8 @@ paths:
                 Example:
                   value:
                     meme_id: 10
-                    bookmark_ids:
-                    - 101
-                    - 102
-                    - 103
+                    bookmark_ids: []
+                    without_bookmark: true
                   summary: A valid request
           description: ''
         '400':
@@ -514,9 +510,9 @@ paths:
                     example:
                       detail: Not found.
           description: ''
-  /api/v1/bookmarkings-without-meme/:
+  /api/v1/bookmarkings-without-bookmark/:
     get:
-      operationId: api_v1_bookmarkings_without_meme_list
+      operationId: api_v1_bookmarkings_without_bookmark_list
       description: 북마크가 없는 북마킹들을 조회합니다.
       parameters:
       - name: ordering
@@ -557,7 +553,7 @@ paths:
                 $ref: '#/components/schemas/PaginatedBookmarkingList'
           description: ''
     post:
-      operationId: api_v1_bookmarkings_without_meme_create
+      operationId: api_v1_bookmarkings_without_bookmark_create
       description: 북마크가 없는 북마킹들에 대해 북마크를 일괄로 추가합니다.
       parameters:
       - name: ordering
