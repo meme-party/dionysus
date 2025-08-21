@@ -41,25 +41,31 @@ class UserDeletionTests(APITestCase):
         mock_post.return_value.status_code = 200
         mock_post.return_value.json.return_value = {"id": 12345678}
 
-        # 사용자 탈퇴 요청
-        response = self.client.delete(self.url)
+        # KAKAO_ADMIN_KEY 설정을 위한 패치
+        with patch("django.conf.settings.KAKAO_ADMIN_KEY", "test_admin_key"):
+            # 사용자 탈퇴 요청
+            response = self.client.delete(self.url)
 
-        # 응답 확인
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+            # 응답 확인
+            self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        # 사용자 및 소셜 계정이 삭제되었는지 확인
-        # 테스트 전에 ID 저장
-        user_id = self.user.id
-        account_id = self.social_account.id
+            # 사용자 및 소셜 계정이 삭제되었는지 확인
+            # 테스트 전에 ID 저장
+            user_id = self.user.id
+            account_id = self.social_account.id
 
-        self.assertEqual(User.objects.filter(id=user_id).count(), 0)
-        self.assertEqual(SocialAccount.objects.filter(user_id=user_id).count(), 0)
-        self.assertEqual(SocialToken.objects.filter(account_id=account_id).count(), 0)
+            self.assertEqual(User.objects.filter(id=user_id).count(), 0)
+            self.assertEqual(SocialAccount.objects.filter(user_id=user_id).count(), 0)
+            self.assertEqual(
+                SocialToken.objects.filter(account_id=account_id).count(), 0
+            )
 
-        # kakao API가 호출되었는지 확인
-        mock_post.assert_called_once()
-        # 어드민 키를 사용했는지 확인
-        self.assertTrue("KakaoAK" in mock_post.call_args[1]["headers"]["Authorization"])
+            # kakao API가 호출되었는지 확인
+            mock_post.assert_called_once()
+            # 어드민 키를 사용했는지 확인
+            self.assertTrue(
+                "KakaoAK" in mock_post.call_args[1]["headers"]["Authorization"]
+            )
 
     def test_delete_user_unauthenticated(self):
         # 로그아웃
