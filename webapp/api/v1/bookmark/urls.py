@@ -13,7 +13,7 @@ app_name = "bookmark"
 router = DefaultRouter()
 router.register(r"bookmarks", BookmarkViewSet, basename="bookmark")
 router.register(
-    r"bookmarkings-without-meme",
+    r"bookmarkings-without-bookmark",
     BookmarkingWithoutBookmarkViewset,
     basename="bookmarking",
 )
