@@ -454,6 +454,10 @@ paths:
                   items:
                     type: integer
                   description: List of Bookmark IDs belonging to the user.
+                without_bookmark:
+                  type: boolean
+                  default: false
+                  description: 'If true, Bookmarkings without a Bookmark will be saved. '
               required:
               - meme_id
               - bookmark_ids
@@ -509,6 +513,124 @@ paths:
                   application/json:
                     example:
                       detail: Not found.
+          description: ''
+  /api/v1/bookmarkings-without-meme/:
+    get:
+      operationId: api_v1_bookmarkings_without_meme_list
+      description: 북마크가 없는 북마킹들을 조회합니다.
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - bookmarking
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookmarkingList'
+          description: ''
+    post:
+      operationId: api_v1_bookmarkings_without_meme_create
+      description: 북마크가 없는 북마킹들에 대해 북마크를 일괄로 추가합니다.
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: per_page
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - bookmarking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                meme_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: 북마크를 추가할 밈 ID 목록
+                bookmark_ids:
+                  type: array
+                  items:
+                    type: integer
+                  description: 추가할 북마크 ID 목록
+              required:
+              - meme_ids
+              - bookmark_ids
+      security:
+      - cookieAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBookmarkingList'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
           description: ''
   /api/v1/bookmarkings/{bookmarking_id}:
     delete:
