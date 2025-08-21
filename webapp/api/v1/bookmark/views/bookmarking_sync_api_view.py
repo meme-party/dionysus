@@ -75,8 +75,17 @@ class BookmarkingSyncAPIView(BaseAPIView):
             OpenApiExample(
                 "Example",
                 summary="A valid request",
-                value={"meme_id": 10, "bookmark_ids": [101, 102, 103]},
-            )
+                value={
+                    "meme_id": 10,
+                    "bookmark_ids": [101, 102, 103],
+                    "without_bookmark": False,
+                },
+            ),
+            OpenApiExample(
+                "Example",
+                summary="A valid request",
+                value={"meme_id": 10, "bookmark_ids": [], "without_bookmark": True},
+            ),
         ],
     )
     def post(self, request, *args, **kwargs):
