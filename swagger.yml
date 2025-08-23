@@ -984,7 +984,6 @@ paths:
         required: true
       tags:
       - meme
-      - bookmark
       security:
       - cookieAuth: []
       - jwtHeaderAuth: []
