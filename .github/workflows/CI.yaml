@@ -3,8 +3,9 @@ name: Django CI
 on:
   push:
     branches:
-      - main
+    - main
   workflow_dispatch:
+
 
 env:
   DJANGO_SECRET_KEY: ${{ secrets.CI_DJANGO_KEY }}
@@ -31,51 +32,70 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ${{ secrets.CI_POSTGRES_PASSWORD }}
         ports:
-          - 5432:5432
+        - 5432:5432
         options: >-
           --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis:7
+        ports:
+        - "6379:6379"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.13'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.13'
 
-      - name: Cache Poetry dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pypoetry
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-poetry-
+    - name: Cache Poetry dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-poetry-
 
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies via Poetry
-        run: poetry install
+    - name: Install dependencies via Poetry
+      run: poetry install
 
-      - name: Configure environment variables
-        run: |
-          echo "DJANGO_SETTINGS_MODULE=config.settings.test" >> $GITHUB_ENV
-          echo "DATABASE_URL=postgres://postgres:${{ secrets.CI_POSTGRES_PASSWORD }}@localhost:5432/dionysus_db" >> $GITHUB_ENV
+    - name: Configure environment variables
+      run: |
+        echo "DJANGO_SETTINGS_MODULE=config.settings.test" >> $GITHUB_ENV
+        echo "DATABASE_URL=postgres://postgres:${{ secrets.CI_POSTGRES_PASSWORD }}@localhost:5432/dionysus_db" >> $GITHUB_ENV
 
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          for i in {1..10}; do
-            pg_isready -h localhost -p 5432 && break
-            sleep 5
-          done
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        for i in {1..10}; do
+          pg_isready -h localhost -p 5432 && break
+          sleep 5
+        done
 
-      - name: Run Django migrations
-        working-directory: webapp
-        run: poetry run python manage.py migrate
+    - name: Install Redis CLI
+      run: sudo apt-get update && sudo apt-get install -y redis-tools
 
-      - name: Run Django tests
-        working-directory: webapp
-        run: poetry run python manage.py test
+    - name: Wait for Redis to be ready
+      run: |
+        for i in {1..10}; do
+          redis-cli -h localhost -p 6379 ping && break
+          sleep 2
+        done
+
+    - name: Run Django migrations
+      working-directory: webapp
+      run: poetry run python manage.py migrate
+
+    - name: Run Django tests
+      working-directory: webapp
+      run: poetry run python manage.py test
