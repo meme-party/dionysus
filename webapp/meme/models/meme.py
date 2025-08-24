@@ -174,10 +174,12 @@ class Meme(BaseModelWithSoftDelete):
         if not user:
             return []
 
-        bookmark_ids = user.bookmarkings.filter(meme=self).values_list(
-            "bookmark_id", flat=True
+        return (
+            user.bookmarkings.filter(meme=self, bookmark_id__isnull=False)
+            .distinct()
+            .order_by("bookmark_id")
+            .values_list("bookmark_id", flat=True)
         )
-        return sorted(set(bookmark_ids))
 
     def __str__(self):
         return self.title
