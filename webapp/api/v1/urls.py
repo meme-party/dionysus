@@ -7,4 +7,5 @@ urlpatterns = [
     path("", include("api.v1.account.urls")),
     path("", include("api.v1.tag.urls")),
     path("", include("api.v1.bookmark.urls")),
+    path("", include("api.v1.studio.urls")),
 ]
