@@ -87,6 +87,7 @@ CUSTOM_APPS: List[str] = [
     "file_manager",
     "tag",
     "api",
+    "studio",
 ]
 
 INSTALLED_APPS = PRE_PACKAGE_APPS + DJANGO_APPS + PACKAGE_APPS + CUSTOM_APPS
