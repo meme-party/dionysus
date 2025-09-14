@@ -1593,8 +1593,6 @@ components:
         id:
           type: integer
           readOnly: true
-        meme:
-          type: integer
         content:
           type: string
           title: Memo content
@@ -1610,7 +1608,6 @@ components:
       - content
       - created_at
       - id
-      - meme
       - updated_at
     PaginatedBookmarkList:
       type: object
@@ -1794,8 +1791,6 @@ components:
         id:
           type: integer
           readOnly: true
-        meme:
-          type: integer
         content:
           type: string
           title: Memo content
