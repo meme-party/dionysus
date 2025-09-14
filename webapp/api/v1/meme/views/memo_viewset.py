@@ -1,5 +1,6 @@
 from api.v1.meme.serializers import MemoSerializer
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from meme.models import Meme
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
@@ -34,7 +35,10 @@ class MemoViewSet(viewsets.ModelViewSet):
     ordering = ["-created_at"]
 
     def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
+        meme_id = self.kwargs["meme_pk"]
+        meme = Meme.objects.get(id=meme_id)
+        serializer.save(creator=self.request.user, meme=meme)
 
     def get_queryset(self):
-        return self.request.user.memos.all()
+        meme_id = self.kwargs["meme_pk"]
+        return self.request.user.memos.filter(meme_id=meme_id)
