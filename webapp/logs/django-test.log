@@ -1,0 +1,201 @@
+DEBUG [2025-09-14 22:37:17,880] [None] celery.utils.functional: 
+def update_counters_for_user(user_id):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,884] [None] celery.utils.functional: 
+def accumulate(self, *args, **kwargs):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,885] [None] celery.utils.functional: 
+def chain(*args, **kwargs):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,885] [None] celery.utils.functional: 
+def backend_cleanup():
+    return 1
+
+DEBUG [2025-09-14 22:37:17,886] [None] celery.utils.functional: 
+def chord(self, header, body, partial_args=0, interval=1, countdown=2, max_retries=3, eager=4, **kwargs):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,887] [None] celery.utils.functional: 
+def unlock_chord(self, group_id, callback, interval=0, max_retries=1, result=2, Result=3, GroupResult=4, result_from_tuple=5, **kwargs):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,888] [None] celery.utils.functional: 
+def update_tag_counter(tag_id):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,889] [None] celery.utils.functional: 
+def update_all_tag_counters():
+    return 1
+
+DEBUG [2025-09-14 22:37:17,889] [None] celery.utils.functional: 
+def debug_task(self):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,890] [None] celery.utils.functional: 
+def update_counters_for_tag(tag_id):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,891] [None] celery.utils.functional: 
+def xmap(task, it):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,892] [None] celery.utils.functional: 
+def update_counter_for_user_and_tag(user_id, tag_id):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,892] [None] celery.utils.functional: 
+def xstarmap(task, it):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,893] [None] celery.utils.functional: 
+def chunks(task, it, n):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,894] [None] celery.utils.functional: 
+def update_all_user_counters():
+    return 1
+
+DEBUG [2025-09-14 22:37:17,894] [None] celery.utils.functional: 
+def update_counters_for_bookmarking(user_id, meme_id):
+    return 1
+
+DEBUG [2025-09-14 22:37:17,895] [None] celery.utils.functional: 
+def group(self, tasks, result, group_id, partial_args, add_to_parent=0):
+    return 1
+
+DEBUG [2025-09-14 22:37:18,212] [None] faker.factory: Not in REPL -> leaving logger event level as is.
+DEBUG [2025-09-14 22:37:24,305] [None] django_guid: sync middleware called
+INFO [2025-09-14 22:37:24,305] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: e47e2862a9824421a344bea872e0c2ea
+DEBUG [2025-09-14 22:37:24,310] [e47e2862a9824421a344bea872e0c2ea] silk.middleware: process_request
+DEBUG [2025-09-14 22:37:24,313] [e47e2862a9824421a344bea872e0c2ea] silk.model_factory: Created new request model with pk fcdc1efb-9c52-4646-ba22-5005b86a8c91
+INFO [2025-09-14 22:37:24,332] [e47e2862a9824421a344bea872e0c2ea] root: Successfully unlinked Kakao account for user test@example.com
+DEBUG [2025-09-14 22:37:24,396] [e47e2862a9824421a344bea872e0c2ea] silk.middleware: Process response
+DEBUG [2025-09-14 22:37:24,396] [e47e2862a9824421a344bea872e0c2ea] silk.model_factory: Creating response model for request model with pk fcdc1efb-9c52-4646-ba22-5005b86a8c91
+DEBUG [2025-09-14 22:37:24,465] [e47e2862a9824421a344bea872e0c2ea] silk.middleware: Process response done.
+DEBUG [2025-09-14 22:37:24,466] [e47e2862a9824421a344bea872e0c2ea] django_guid: Received signal `request_finished`, clearing guid
+DEBUG [2025-09-14 22:37:24,480] [None] django_guid: sync middleware called
+INFO [2025-09-14 22:37:24,480] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: 3c124fe9f9864d4da16ca5d818aa992f
+DEBUG [2025-09-14 22:37:24,481] [3c124fe9f9864d4da16ca5d818aa992f] silk.middleware: process_request
+DEBUG [2025-09-14 22:37:24,482] [3c124fe9f9864d4da16ca5d818aa992f] silk.model_factory: Created new request model with pk f1726a98-c1a9-4c9c-a570-39c196fe638c
+DEBUG [2025-09-14 22:37:24,539] [3c124fe9f9864d4da16ca5d818aa992f] silk.middleware: Process response
+DEBUG [2025-09-14 22:37:24,539] [3c124fe9f9864d4da16ca5d818aa992f] silk.model_factory: Creating response model for request model with pk f1726a98-c1a9-4c9c-a570-39c196fe638c
+DEBUG [2025-09-14 22:37:24,597] [3c124fe9f9864d4da16ca5d818aa992f] silk.middleware: Process response done.
+DEBUG [2025-09-14 22:37:24,597] [3c124fe9f9864d4da16ca5d818aa992f] django_guid: Received signal `request_finished`, clearing guid
+DEBUG [2025-09-14 22:37:24,620] [None] django_guid: sync middleware called
+INFO [2025-09-14 22:37:24,621] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: 45ea37aaab0c42b7b2d0e9b400c94dfc
+DEBUG [2025-09-14 22:37:24,621] [45ea37aaab0c42b7b2d0e9b400c94dfc] silk.middleware: process_request
+DEBUG [2025-09-14 22:37:24,623] [45ea37aaab0c42b7b2d0e9b400c94dfc] silk.model_factory: Created new request model with pk 19095385-14de-431d-9d1f-dc725e011475
+DEBUG [2025-09-14 22:37:24,625] [45ea37aaab0c42b7b2d0e9b400c94dfc] silk.middleware: Process response
+DEBUG [2025-09-14 22:37:24,625] [45ea37aaab0c42b7b2d0e9b400c94dfc] silk.model_factory: Creating response model for request model with pk 19095385-14de-431d-9d1f-dc725e011475
+DEBUG [2025-09-14 22:37:24,631] [45ea37aaab0c42b7b2d0e9b400c94dfc] silk.middleware: Process response done.
+WARNING [2025-09-14 22:37:24,632] [45ea37aaab0c42b7b2d0e9b400c94dfc] django.request: Forbidden: /api/v1/accounts/user/delete/
+DEBUG [2025-09-14 22:37:24,632] [45ea37aaab0c42b7b2d0e9b400c94dfc] django_guid: Received signal `request_finished`, clearing guid
+DEBUG [2025-09-14 22:37:24,657] [None] django_guid: sync middleware called
+INFO [2025-09-14 22:37:24,657] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: dc0cf18278174d4491a7f6ccc8b3452a
+DEBUG [2025-09-14 22:37:24,657] [dc0cf18278174d4491a7f6ccc8b3452a] silk.middleware: process_request
+DEBUG [2025-09-14 22:37:24,658] [dc0cf18278174d4491a7f6ccc8b3452a] silk.model_factory: No maximum request body size is set, continuing.
+DEBUG [2025-09-14 22:37:24,660] [dc0cf18278174d4491a7f6ccc8b3452a] silk.model_factory: Created new request model with pk a753bdd3-0c14-4fcb-9881-2bf5e881a76d
+DEBUG [2025-09-14 22:37:24,662] [dc0cf18278174d4491a7f6ccc8b3452a] silk.middleware: Process response
+DEBUG [2025-09-14 22:37:24,662] [dc0cf18278174d4491a7f6ccc8b3452a] silk.model_factory: Creating response model for request model with pk a753bdd3-0c14-4fcb-9881-2bf5e881a76d
+DEBUG [2025-09-14 22:37:24,669] [dc0cf18278174d4491a7f6ccc8b3452a] silk.middleware: Process response done.
+WARNING [2025-09-14 22:37:24,669] [dc0cf18278174d4491a7f6ccc8b3452a] django.request: Forbidden: /api/v1/bookmarkings/
+DEBUG [2025-09-14 22:37:24,670] [dc0cf18278174d4491a7f6ccc8b3452a] django_guid: Received signal `request_finished`, clearing guid
+WARNING [2025-09-14 22:37:24,751] [None] kombu.connection: No hostname was supplied. Reverting to default 'localhost'
+INFO [2025-09-14 22:37:24,833] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[42b662ff-f65a-4d27-9fda-17fbd561d2fa] succeeded in 0.0385818349998317s: '사용자 ID 6의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:24,865] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[a9e44367-08ee-4692-8c81-b51b0fb0c7e8] succeeded in 0.011031731000002765s: '사용자 ID 6의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:24,896] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[2eab239b-7013-428c-92ff-5df63560c93d] succeeded in 0.011060314000133076s: '사용자 ID 6의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:24,960] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[7a4c9ed9-d805-4aef-a68c-7317e4763438] succeeded in 0.0112266159999308s: '사용자 ID 8의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,009] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[c321da19-b22b-4248-857d-d1aa13f08d6d] succeeded in 0.0114008109999304s: '사용자 ID 8의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,035] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[1c0649ce-140b-4a28-9386-e49c3e6f8cf0] succeeded in 0.011457968000058827s: '사용자 ID 8의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,093] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[d87a0756-2405-4c0e-bf78-5ebe543f385f] succeeded in 0.011320200000000114s: '사용자 ID 12의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,117] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[27b124b0-c679-4009-925e-ff504ed6dbd7] succeeded in 0.011270327000147518s: '사용자 ID 12의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,161] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[4a2862f5-5e5b-4cfa-8099-05e362a4495f] succeeded in 0.011278712999910567s: '사용자 ID 12의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,202] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[e8ff2069-e01a-4bf3-aa61-acf539fb2177] succeeded in 0.011280124999984764s: '사용자 ID 14의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,226] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[03300384-9c56-4e28-9620-675b81a89dad] succeeded in 0.011265978999972504s: '사용자 ID 14의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,263] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[210bd633-1fc7-420c-a01c-c1f06ad32359] succeeded in 0.011270658000057665s: '사용자 ID 14의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+DEBUG [2025-09-14 22:37:25,279] [None] django_guid: sync middleware called
+INFO [2025-09-14 22:37:25,279] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: 1b412824e2cd45448a94359f35d71177
+DEBUG [2025-09-14 22:37:25,280] [1b412824e2cd45448a94359f35d71177] silk.middleware: process_request
+DEBUG [2025-09-14 22:37:25,280] [1b412824e2cd45448a94359f35d71177] silk.model_factory: No maximum request body size is set, continuing.
+DEBUG [2025-09-14 22:37:25,282] [1b412824e2cd45448a94359f35d71177] silk.model_factory: Created new request model with pk 9ba9e805-00d2-4d84-81dd-1a027d1625e2
+DEBUG [2025-09-14 22:37:25,289] [1b412824e2cd45448a94359f35d71177] silk.middleware: Process response
+DEBUG [2025-09-14 22:37:25,289] [1b412824e2cd45448a94359f35d71177] silk.model_factory: Creating response model for request model with pk 9ba9e805-00d2-4d84-81dd-1a027d1625e2
+DEBUG [2025-09-14 22:37:25,299] [1b412824e2cd45448a94359f35d71177] silk.middleware: Process response done.
+WARNING [2025-09-14 22:37:25,300] [1b412824e2cd45448a94359f35d71177] django.request: Not Found: /api/v1/bookmarkings/
+DEBUG [2025-09-14 22:37:25,300] [1b412824e2cd45448a94359f35d71177] django_guid: Received signal `request_finished`, clearing guid
+INFO [2025-09-14 22:37:25,333] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[4166a8eb-edb6-4075-bdf3-64442e62b787] succeeded in 0.01153348200000437s: '사용자 ID 18의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+DEBUG [2025-09-14 22:37:25,335] [None] django_guid: sync middleware called
+INFO [2025-09-14 22:37:25,335] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: 70fce440c2404b598e5f0dfb34e16857
+DEBUG [2025-09-14 22:37:25,335] [70fce440c2404b598e5f0dfb34e16857] silk.middleware: process_request
+DEBUG [2025-09-14 22:37:25,336] [70fce440c2404b598e5f0dfb34e16857] silk.model_factory: No maximum request body size is set, continuing.
+DEBUG [2025-09-14 22:37:25,338] [70fce440c2404b598e5f0dfb34e16857] silk.model_factory: Created new request model with pk 587e3949-3636-4052-b733-5e94baf08966
+WARNING [2025-09-14 22:37:25,357] [70fce440c2404b598e5f0dfb34e16857] nplusone: Potential n+1 query detected on `Bookmarking.user`
+WARNING [2025-09-14 22:37:25,361] [70fce440c2404b598e5f0dfb34e16857] nplusone: Potential n+1 query detected on `Bookmarking.meme`
+INFO [2025-09-14 22:37:25,407] [70fce440c2404b598e5f0dfb34e16857] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[a0993ff1-08b1-4b23-9a6f-0a057ede9a31] succeeded in 0.02322830299999623s: '사용자 ID 18의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,462] [70fce440c2404b598e5f0dfb34e16857] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[a6481581-7b04-4c4e-932d-ffa739b80269] succeeded in 0.015946002000191584s: '사용자 ID 18의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,507] [70fce440c2404b598e5f0dfb34e16857] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[4cce452f-dd3c-41b9-9497-a6e45c2ce1f0] succeeded in 0.01586105299998053s: '사용자 ID 18의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+DEBUG [2025-09-14 22:37:25,508] [70fce440c2404b598e5f0dfb34e16857] silk.middleware: Process response
+DEBUG [2025-09-14 22:37:25,508] [70fce440c2404b598e5f0dfb34e16857] silk.model_factory: Creating response model for request model with pk 587e3949-3636-4052-b733-5e94baf08966
+DEBUG [2025-09-14 22:37:25,629] [70fce440c2404b598e5f0dfb34e16857] silk.middleware: Process response done.
+DEBUG [2025-09-14 22:37:25,630] [70fce440c2404b598e5f0dfb34e16857] django_guid: Received signal `request_finished`, clearing guid
+INFO [2025-09-14 22:37:25,674] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[7b2d1543-3514-4ea2-90b0-016258abc396] succeeded in 0.01158884799997395s: '사용자 ID 20의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+DEBUG [2025-09-14 22:37:25,675] [None] django_guid: sync middleware called
+INFO [2025-09-14 22:37:25,675] [None] django_guid: Header `Correlation-ID` was not found in the incoming request. Generated new GUID: d94705d1f67b4a9db8d8cc823911910d
+DEBUG [2025-09-14 22:37:25,676] [d94705d1f67b4a9db8d8cc823911910d] silk.middleware: process_request
+DEBUG [2025-09-14 22:37:25,676] [d94705d1f67b4a9db8d8cc823911910d] silk.model_factory: No maximum request body size is set, continuing.
+DEBUG [2025-09-14 22:37:25,677] [d94705d1f67b4a9db8d8cc823911910d] silk.model_factory: Created new request model with pk bbc62be4-c5ed-4cdc-a9fc-0722a79316b2
+WARNING [2025-09-14 22:37:25,693] [d94705d1f67b4a9db8d8cc823911910d] nplusone: Potential n+1 query detected on `Bookmarking.bookmark`
+WARNING [2025-09-14 22:37:25,707] [d94705d1f67b4a9db8d8cc823911910d] nplusone: Potential n+1 query detected on `Bookmarking.meme`
+INFO [2025-09-14 22:37:25,749] [d94705d1f67b4a9db8d8cc823911910d] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[a4678fe8-cbb2-417b-ba39-fe555cccb2f2] succeeded in 0.0198244750001777s: '사용자 ID 20의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:25,799] [d94705d1f67b4a9db8d8cc823911910d] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[4da12591-096c-4974-b8c9-196a7172638c] succeeded in 0.029801559000134148s: '사용자 ID 20의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+DEBUG [2025-09-14 22:37:25,800] [d94705d1f67b4a9db8d8cc823911910d] silk.middleware: Process response
+DEBUG [2025-09-14 22:37:25,800] [d94705d1f67b4a9db8d8cc823911910d] silk.model_factory: Creating response model for request model with pk bbc62be4-c5ed-4cdc-a9fc-0722a79316b2
+DEBUG [2025-09-14 22:37:25,887] [d94705d1f67b4a9db8d8cc823911910d] silk.middleware: Process response done.
+DEBUG [2025-09-14 22:37:25,888] [d94705d1f67b4a9db8d8cc823911910d] django_guid: Received signal `request_finished`, clearing guid
+INFO [2025-09-14 22:37:25,955] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[6528e135-aa86-4084-b9f4-258297f517b9] succeeded in 0.011353309000014633s: '사용자 ID 22의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,023] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[5ee74c1e-21d2-44f1-bf7e-ecae40049432] succeeded in 0.011400891999983287s: '사용자 ID 28의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,079] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[16c762a6-2a95-4249-934b-fecfe820a856] succeeded in 0.011695982999981425s: '사용자 ID 28의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,116] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[dd35dec2-fbe2-41f3-9262-f4df14f80a85] succeeded in 0.011169548999987455s: '사용자 ID 28의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,148] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[2ebddee9-a94a-4cce-b6cc-a337e3cffa31] succeeded in 0.011124945000119624s: '사용자 ID 28의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,185] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_bookmarking[66a9af20-3820-477c-b08b-572373858a44] succeeded in 0.03581612200014206s: '북마킹 관련 카운터 업데이트 완료 - 사용자 ID: 28, 밈 ID: 13, 업데이트된 사용자 태그 카운터: 0, 업데이트된 태그: 0, 총 업데이트된 사용자-태그 관계: 0, Bookmark 카운터 업데이트 완료'
+INFO [2025-09-14 22:37:26,228] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[01678a4f-f39a-4f84-b931-e0e22f2fccc0] succeeded in 0.01141485800008013s: '사용자 ID 30의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,256] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[371fc8a9-3fb1-4ca2-a968-1e3e0bf95f19] succeeded in 0.011440775999972175s: '사용자 ID 30의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,313] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[ad08379e-f041-4430-b208-1c8db41bf0a6] succeeded in 0.011175689999845417s: '사용자 ID 30의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,350] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[d71da577-3966-4597-80a7-302e4a4962f4] succeeded in 0.011086633999866535s: '사용자 ID 30의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,385] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_bookmarking[8b8ca659-4c74-4c6f-96f9-b7a9b5b3b106] succeeded in 0.0350842200000443s: '북마킹 관련 카운터 업데이트 완료 - 사용자 ID: 30, 밈 ID: 14, 업데이트된 사용자 태그 카운터: 0, 업데이트된 태그: 0, 총 업데이트된 사용자-태그 관계: 0, Bookmark 카운터 업데이트 완료'
+INFO [2025-09-14 22:37:26,432] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[0be12445-f0da-4883-bf9e-413099578079] succeeded in 0.011848458000031314s: '사용자 ID 32의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,561] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[d41bf01e-074d-4ccf-8898-00c1b75a5e6a] succeeded in 0.011528661000056672s: '사용자 ID 32의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,598] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[3a703b22-b33c-47d0-be5c-a69a039d24f3] succeeded in 0.011218529999950988s: '사용자 ID 32의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,637] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[34138567-46eb-4996-bfaf-ce1c00752c0c] succeeded in 0.011419094000075347s: '사용자 ID 34의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,687] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[3c5c8d30-4a16-4f8a-a898-6f7361f62e68] succeeded in 0.011416873999905874s: '사용자 ID 34의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,713] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[eff4e2ef-ca34-4ba1-b7e2-c3bb7705b188] succeeded in 0.011615429999892513s: '사용자 ID 34의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,772] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[c572c5c3-d2bc-4a6d-8d8d-23f15df441a0] succeeded in 0.012084070000128122s: '사용자 ID 36의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,800] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[8fb6bc96-2c73-4362-8dfd-782ab07adaf8] succeeded in 0.011402033999956984s: '사용자 ID 37의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,828] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[90446a9a-c1a8-46f1-861a-03efbf44d170] succeeded in 0.011302507999971567s: '사용자 ID 36의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,872] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[1a5a0a48-4050-43ea-813c-5fbd181e3595] succeeded in 0.011417201999847748s: '사용자 ID 38의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,895] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[4f98eeb3-f75f-4ec8-9dba-f8f0361d1bb2] succeeded in 0.011828722000018388s: '사용자 ID 39의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,937] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[dcedc3a9-714d-4da4-8356-e050bc8d72bd] succeeded in 0.011439423999945575s: '사용자 ID 40의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:26,960] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[98c0e207-214e-40e5-95ba-02c193a4e2f0] succeeded in 0.01143249000006108s: '사용자 ID 40의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,006] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[552af46f-5338-4d74-b69f-d36023ce7f76] succeeded in 0.011496720999957688s: '사용자 ID 42의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,051] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[24817037-27f6-4b5e-a0e4-70efdf489249] succeeded in 0.01166500499994072s: '사용자 ID 44의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,079] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[4ecbd9ef-8f52-4df0-bf8c-2311c603c6c0] succeeded in 0.011359633999973084s: '사용자 ID 44의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,124] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[8babc5f7-28cf-47b0-b137-b8ab774d7d5a] succeeded in 0.01136388200006877s: '사용자 ID 46의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,180] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[47eabd2b-4f09-4ec7-bb33-3b403ea7b436] succeeded in 0.012148977999913768s: '사용자 ID 49의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,231] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[37bdea80-e569-442e-ac84-8aa5d0b9d3f9] succeeded in 0.012096272000007957s: '사용자 ID 51의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,267] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[d1abb3e9-de13-4e01-b298-2c7ebc1d5211] succeeded in 0.011480130000109057s: '사용자 ID 52의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,298] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[fe0fea80-9a69-44e9-931e-9d1e1af13bd5] succeeded in 0.01156772300009834s: '사용자 ID 53의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,328] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[3f4adb1f-0911-4da0-8cdc-68e91be02ff8] succeeded in 0.011439764999977342s: '사용자 ID 54의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,364] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[d877b811-030a-4149-b910-0d64857e1440] succeeded in 0.01144485400004669s: '사용자 ID 55의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,393] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[75acdb7c-26b8-46bb-88b7-06b624079c34] succeeded in 0.01145598399989467s: '사용자 ID 55의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,428] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[2d20bc84-5e92-4f22-9f7f-543874334412] succeeded in 0.01128140900004837s: '사용자 ID 56의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,458] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[0ad0cd16-0cbc-4902-8d61-c43b88ff7e00] succeeded in 0.011335589000054824s: '사용자 ID 57의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,494] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[d812d20d-927e-48d3-8e1c-47211e454ac6] succeeded in 0.01144552499999918s: '사용자 ID 58의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,540] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[8ff93488-caf0-47db-bf6e-b08c083e4704] succeeded in 0.012166913999863027s: '사용자 ID 59의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,564] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[7d4fbbdf-d75a-457d-931a-35190e7e1e99] succeeded in 0.01143810200005646s: '사용자 ID 59의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,610] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[2af2a821-8729-47dd-99f1-be6b9a9d389f] succeeded in 0.011445915999956924s: '사용자 ID 60의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,633] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[331bab3d-e5c5-4bb2-ad59-e873c7763235] succeeded in 0.011476132000098005s: '사용자 ID 60의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,675] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[87b312e3-52d7-4e41-a9c5-db45440b5f2f] succeeded in 0.011482113000056415s: '사용자 ID 61의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
+INFO [2025-09-14 22:37:27,699] [None] celery.app.trace: Task tag.tasks.tag_counter_tasks.update_counters_for_user[41bda490-0bcf-49dd-a642-3ac19c36ef78] succeeded in 0.011697342999923421s: '사용자 ID 61의 모든 태그 카운터 업데이트 완료: 0개 카운터 업데이트됨'
